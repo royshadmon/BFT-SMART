@@ -1,0 +1,27 @@
+Notes for running simulation
+
+- Delete currentView file in config/ when updating number of replicas
+
+- Compile code updates
+    bash buildBFTSmart.sh
+
+- Start servers
+    bash startStreamServer.sh
+
+- Start client
+    runscripts/smartrun.sh bftsmart.demo.stream.StreamClient 0 1 1000
+
+- To update number of replicas you need to update it in:
+    - config/hosts.config
+    - config/systems.config ----> variables
+        - system.servers.num
+        - system.servers.f
+        -  system.initial.view
+
+- Check if some Java program didn't close properly
+    - "pidof java"
+    - kill all those programs
+        - kill -9 `pidof java`
+
+- Timer documents
+    - https://www.delftstack.com/howto/java/java-stopwatch/#:~:text=Stopwatch%20in%20Java%20Using%20System.nanoTime%20%28%29%20We%20want,program%2C%20we%20create%20two%20classes%2C%20Stopwatch1%20and%20Stopwatch.

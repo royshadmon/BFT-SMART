@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0538279-4b1a-4a8f-81e7-c2a5815cf12b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/buildBFTSmart.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/StreamClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/StreamServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/runGuide.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/hosts.config" beforeDir="false" afterPath="$PROJECT_DIR$/config/hosts.config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/system.config" beforeDir="false" afterPath="$PROJECT_DIR$/config/system.config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/BFT-SMaRt.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/BFT-SMaRt.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/StreamClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/StreamClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/wind-data-small-features-next-day-test.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/wind-data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/startStreamServer.sh" beforeDir="false" afterPath="$PROJECT_DIR$/startStreamServer.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +88,7 @@
       <option name="presentableId" value="Default" />
       <updated>1654178112728</updated>
       <workItem from="1654178113968" duration="4738000" />
-      <workItem from="1654188943611" duration="2163000" />
+      <workItem from="1654188943611" duration="12289000" />
     </task>
     <servers />
   </component>
@@ -96,9 +100,17 @@
       <screen x="0" y="25" width="2560" height="1017" />
     </state>
     <state x="343" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654187532670" />
-    <state x="965" y="38" width="734" height="969" key="find.popup" timestamp="1654189577099">
+    <state x="1354" y="313" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1654217840101">
       <screen x="0" y="25" width="2560" height="1017" />
     </state>
-    <state x="965" y="38" width="734" height="969" key="find.popup/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654189577099" />
+    <state x="1354" y="313" key="#com.intellij.fileTypes.FileTypeChooser/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654217840101" />
+    <state x="1323" y="216" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1654218958291">
+      <screen x="0" y="25" width="2560" height="1017" />
+    </state>
+    <state x="1323" y="216" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654218958291" />
+    <state x="965" y="38" width="734" height="969" key="find.popup" timestamp="1654212155062">
+      <screen x="0" y="25" width="2560" height="1017" />
+    </state>
+    <state x="965" y="38" width="734" height="969" key="find.popup/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654212155062" />
   </component>
 </project>
