@@ -21,6 +21,12 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import java.util.*;
+import java.io.File;
+import java.util.Scanner; // used to read from CSV file
+//import java.util.Timer;
+import java.math.BigInteger;
+
 import bftsmart.tom.ServiceProxy;
 
 /**
@@ -37,34 +43,95 @@ public class StreamClient {
             System.out.println("       default <number of operations> equals 1000");
             System.exit(-1);
         }
-
+        final long nanoSecondsPerSecond = 1000000;
+        long stopWatchStartTime = 0;
+        int numSimulations = 5;
+        int inc = Integer.parseInt(args[1]);
         ServiceProxy counterProxy = new ServiceProxy(Integer.parseInt(args[0]));
+        System.out.println("HELLO IS THE BUILD WORKING?");
+        System.out.println(System.getProperty("user.dir"));
 
-        try {
+        int sensor = 1;
+        for (int i=0; i<numSimulations; i++) {
+            File myFile = new File("src/main/java/bftsmart/demo/stream/wind-data.csv");
+            Scanner sc = new Scanner(myFile);
+            sc.useDelimiter(",");
 
-            int inc = Integer.parseInt(args[1]);
-            int numberOfOps = (args.length > 2) ? Integer.parseInt(args[2]) : 1000;
 
-            for (int i = 0; i < numberOfOps; i++) {
+            while (sc.hasNext()) {
+//                System.out.println(sc.next());
+                try {
+//                    double value = Double.valueOf(sc.next());
+                    double value = 12.12;
+                    System.out.println("THE VALUE IS " + Double.toString(value));
+//                    int inc = Integer.parseInt(args[1]);
+//                    int numberOfOps = (args.length > 2) ? Integer.parseInt(args[2]) : 1000;
 
-                ByteArrayOutputStream out = new ByteArrayOutputStream(4);
-                new DataOutputStream(out).writeInt(inc);
+//                    for (int i = 0; i < numberOfOps; i++) {
 
-                System.out.print("Invocation " + i);
-                byte[] reply = (inc == 0)?
-                        counterProxy.invokeUnordered(out.toByteArray()):
-                	counterProxy.invokeOrdered(out.toByteArray()); //magic happens here
+                    stopWatchStartTime = System.nanoTime();
 
-                if(reply != null) {
-                    int newValue = new DataInputStream(new ByteArrayInputStream(reply)).readInt();
-                    System.out.println(", returned value: " + newValue);
-                } else {
-                    System.out.println(", ERROR! Exiting.");
-                    break;
+                    ByteArrayOutputStream out = new ByteArrayOutputStream(10);
+                    System.out.println("HERE1");
+                    new DataOutputStream(out).writeDouble(value);
+                    System.out.println("HERE2");
+//                    System.out.print("Invocation " + i);
+                    byte[] reply = (inc == 0)?
+                            counterProxy.invokeUnordered(out.toByteArray()):
+                            counterProxy.invokeOrdered(out.toByteArray()); //magic happens here
+                    System.out.println("HERE3");
+                    if(reply != null) {
+                        float newValue = new DataInputStream(new ByteArrayInputStream(reply)).readFloat();
+                        System.out.println(", returned value: " + Double.toString(newValue));
+                    } else {
+                        System.out.println(", ERROR! Exiting.");
+                        break;
+                    }
+//                    }
+                } catch(IOException | NumberFormatException e){
+                    counterProxy.close();
+                }
+                sensor += 1;
+                if (sensor == 5) {
+                    long elapsedTime;
+                    elapsedTime = System.nanoTime() - stopWatchStartTime;
+                    System.out.println("ELAPSED TIME IS " + Long.toString(elapsedTime/nanoSecondsPerSecond));
+                    System.out.println("SENSOR IS 5");
+                    sensor = 1;
+
                 }
             }
-        } catch(IOException | NumberFormatException e){
-            counterProxy.close();
+            sc.close();
+
+
         }
+
+
+//        try {
+//
+//            int inc = Integer.parseInt(args[1]);
+//            int numberOfOps = (args.length > 2) ? Integer.parseInt(args[2]) : 1000;
+//
+//            for (int i = 0; i < numberOfOps; i++) {
+//
+//                ByteArrayOutputStream out = new ByteArrayOutputStream(4);
+//                new DataOutputStream(out).writeInt(inc);
+//
+//                System.out.print("Invocation " + i);
+//                byte[] reply = (inc == 0)?
+//                        counterProxy.invokeUnordered(out.toByteArray()):
+//                	counterProxy.invokeOrdered(out.toByteArray()); //magic happens here
+//
+//                if(reply != null) {
+//                    int newValue = new DataInputStream(new ByteArrayInputStream(reply)).readInt();
+//                    System.out.println(", returned value: " + newValue);
+//                } else {
+//                    System.out.println(", ERROR! Exiting.");
+//                    break;
+//                }
+//            }
+//        } catch(IOException | NumberFormatException e){
+//            counterProxy.close();
+//        }
     }
 }
