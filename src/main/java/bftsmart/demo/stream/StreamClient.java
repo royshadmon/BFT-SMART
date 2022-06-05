@@ -61,8 +61,8 @@ public class StreamClient {
             while (sc.hasNext()) {
 //                System.out.println(sc.next());
                 try {
-//                    double value = Double.valueOf(sc.next());
-                    double value = 12.12;
+                    double value = Double.valueOf(sc.next());
+//                    double value = 12.12;
                     System.out.println("THE VALUE IS " + Double.toString(value));
 //                    int inc = Integer.parseInt(args[1]);
 //                    int numberOfOps = (args.length > 2) ? Integer.parseInt(args[2]) : 1000;

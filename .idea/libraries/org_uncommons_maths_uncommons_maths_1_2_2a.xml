@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="org.uncommons.maths:uncommons-maths:1.2.2a" type="repository">
+    <properties maven-id="org.uncommons.maths:uncommons-maths:1.2.2a" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/uncommons-maths-1.2.2a.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jcommon-1.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jfreechart-1.0.8a.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
