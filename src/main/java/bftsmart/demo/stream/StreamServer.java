@@ -28,6 +28,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
+import java.util.concurrent.TimeUnit; // used to make the replica server sleep;
+import org.uncommons.maths.random.ExponentialGenerator; //used for the random number generator
+import org.uncommons.maths.random.MersenneTwisterRNG;
+import java.util.Random;
+
 /**
  * Example replica that implements a BFT replicated service (a stream).
  * If the increment > 0 the counter is incremented, otherwise, the counter
@@ -40,6 +45,13 @@ public final class StreamServer extends DefaultSingleRecoverable  {
 
     private int counter = 0;
     private int iterations = 0;
+    int seed = 1234;
+//    Random rng = new MersenneTwisterRNG();
+    Random num = new Random();
+
+
+    ExponentialGenerator gen = new ExponentialGenerator(0.5, num);
+
 
     public StreamServer(int id) {
     	new ServiceReplica(id, this, this);
@@ -49,8 +61,9 @@ public final class StreamServer extends DefaultSingleRecoverable  {
     public byte[] appExecuteUnordered(byte[] command, MessageContext msgCtx) {
         iterations++;
         System.out.println("(" + iterations + ") Counter current value: " + counter);
+
         try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream(4);
+            ByteArrayOutputStream out = new ByteArrayOutputStream(10);
             new DataOutputStream(out).writeInt(counter);
             return out.toByteArray();
         } catch (IOException ex) {
@@ -68,8 +81,21 @@ public final class StreamServer extends DefaultSingleRecoverable  {
 
             System.out.println("(" + iterations + ") Counter was incremented. Current value = " + counter);
 
-            ByteArrayOutputStream out = new ByteArrayOutputStream(4);
-            new DataOutputStream(out).writeInt(counter);
+            double sleepTime = gen.nextValue();
+            System.out.println("RANDOM NUMBER IS " + Double.toString(sleepTime));
+            long sT = (long) sleepTime;
+            try {
+                TimeUnit.SECONDS.sleep(sT);
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream(10);
+//            new DataOutputStream(out).writeInt(counter);
+
+            new DataOutputStream(out).writeInt(increment);
             return out.toByteArray();
         } catch (IOException ex) {
             System.err.println("Invalid request received!");

@@ -5,14 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0538279-4b1a-4a8f-81e7-c2a5815cf12b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/runGuide.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/org_uncommons_maths_uncommons_maths_1_2_2a.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/BFT-SMART.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BFT-SMART.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/hosts.config" beforeDir="false" afterPath="$PROJECT_DIR$/config/hosts.config" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/system.config" beforeDir="false" afterPath="$PROJECT_DIR$/config/system.config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/BFT-SMaRt.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/BFT-SMaRt.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/StreamClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/StreamClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/wind-data-small-features-next-day-test.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/wind-data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/startStreamServer.sh" beforeDir="false" afterPath="$PROJECT_DIR$/startStreamServer.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/StreamServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/StreamServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/wind-data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/wind-data.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,12 +50,21 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="true" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.build" />
     <property name="show.unlinked.gradle.project.popup" value="true" />
   </component>
   <component name="RecentsManager">
@@ -65,15 +74,13 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -88,7 +95,8 @@
       <option name="presentableId" value="Default" />
       <updated>1654178112728</updated>
       <workItem from="1654178113968" duration="4738000" />
-      <workItem from="1654188943611" duration="12289000" />
+      <workItem from="1654188943611" duration="12374000" />
+      <workItem from="1654379087297" duration="7101000" />
     </task>
     <servers />
   </component>
@@ -108,6 +116,18 @@
       <screen x="0" y="25" width="2560" height="1017" />
     </state>
     <state x="1323" y="216" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654218958291" />
+    <state x="875" y="25" key="SettingsEditor" timestamp="1654387002561">
+      <screen x="0" y="25" width="2560" height="1017" />
+    </state>
+    <state x="875" y="25" key="SettingsEditor/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654387002561" />
+    <state x="1150" y="412" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1654386989577">
+      <screen x="0" y="25" width="2560" height="1017" />
+    </state>
+    <state x="1150" y="412" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654386989577" />
+    <state x="726" y="99" key="editAsTableFormatDialogDimension" timestamp="1654383020973">
+      <screen x="0" y="25" width="2560" height="1017" />
+    </state>
+    <state x="726" y="99" key="editAsTableFormatDialogDimension/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654383020973" />
     <state x="965" y="38" width="734" height="969" key="find.popup" timestamp="1654212155062">
       <screen x="0" y="25" width="2560" height="1017" />
     </state>
