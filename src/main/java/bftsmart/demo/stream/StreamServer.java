@@ -47,9 +47,9 @@ public final class StreamServer extends DefaultSingleRecoverable  {
 
     private int counter = 0;
     private int iterations = 0;
-    int seed = 1234;
+    int seed = 56854;
 //    Random rng = new MersenneTwisterRNG();
-    Random num = new Random();
+    Random num = new Random(seed);
 
     private static Properties prop = new Properties();
     private static String fileName = "config/system.config";

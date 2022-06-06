@@ -89,7 +89,7 @@ public class StreamClient {
 
         int sensor = 1;
         for (int i=0; i<numSimulations; i++) {
-            File myFile = new File("src/main/java/bftsmart/demo/stream/wind-data.csv");
+            File myFile = new File("src/main/java/bftsmart/demo/stream/wind-data-test.csv");
             Scanner sc = new Scanner(myFile);
             sc.useDelimiter(",");
 
