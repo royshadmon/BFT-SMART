@@ -5,14 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0538279-4b1a-4a8f-81e7-c2a5815cf12b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/org_uncommons_maths_uncommons_maths_1_2_2a.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/BFT-SMART.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BFT-SMART.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/system.config" beforeDir="false" afterPath="$PROJECT_DIR$/config/system.config" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/BFT-SMaRt.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/BFT-SMaRt.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/StreamClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/StreamClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/StreamServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/StreamServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/wind-data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/wind-data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/reconfiguration/util/TOMConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/reconfiguration/util/TOMConfiguration.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +94,7 @@
       <updated>1654178112728</updated>
       <workItem from="1654178113968" duration="4738000" />
       <workItem from="1654188943611" duration="12374000" />
-      <workItem from="1654379087297" duration="7101000" />
+      <workItem from="1654379087297" duration="17709000" />
     </task>
     <servers />
   </component>
@@ -112,9 +110,10 @@
       <screen x="0" y="25" width="2560" height="1017" />
     </state>
     <state x="1354" y="313" key="#com.intellij.fileTypes.FileTypeChooser/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654217840101" />
-    <state x="1323" y="216" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1654218958291">
-      <screen x="0" y="25" width="2560" height="1017" />
+    <state x="868" y="210" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1654474172401">
+      <screen x="0" y="25" width="1680" height="987" />
     </state>
+    <state x="868" y="210" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.25.1680.987@0.25.1680.987" timestamp="1654474172401" />
     <state x="1323" y="216" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654218958291" />
     <state x="875" y="25" key="SettingsEditor" timestamp="1654387002561">
       <screen x="0" y="25" width="2560" height="1017" />
@@ -124,6 +123,10 @@
       <screen x="0" y="25" width="2560" height="1017" />
     </state>
     <state x="1150" y="412" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654386989577" />
+    <state x="713" y="46" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1654477363755">
+      <screen x="0" y="25" width="1680" height="987" />
+    </state>
+    <state x="713" y="46" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.25.1680.987@0.25.1680.987" timestamp="1654477363755" />
     <state x="726" y="99" key="editAsTableFormatDialogDimension" timestamp="1654383020973">
       <screen x="0" y="25" width="2560" height="1017" />
     </state>
