@@ -48,7 +48,7 @@ public class StreamClient {
         }
         final long nanoSecondsPerSecond = 1000000;
         long stopWatchStartTime = 0;
-        int numSimulations = 1;
+        int numSimulations = 3;
         int inc = Integer.parseInt(args[1]);
 
 
@@ -78,8 +78,7 @@ public class StreamClient {
         String outputFile = "latency-" + Integer.toString(f) + "-" + Double.toString(latencyRate) + ".txt";
         FileWriter myWriter = new FileWriter(outputFile);
         BufferedWriter bWriter = new BufferedWriter(myWriter);
-        bWriter.write("hello");
-        bWriter.newLine();
+
 
 
 
@@ -88,14 +87,20 @@ public class StreamClient {
 //        bWriter = new BufferedWriter(myWriter);
 
         int sensor = 1;
+
+
+
         for (int i=0; i<numSimulations; i++) {
             File myFile = new File("src/main/java/bftsmart/demo/stream/wind-data-test.csv");
             Scanner sc = new Scanner(myFile);
             sc.useDelimiter(",");
 
+            bWriter.write("NextSim");
+            bWriter.newLine();
 
             while (sc.hasNext()) {
                 try {
+
                     double value = Double.valueOf(sc.next());
                     System.out.println("THE VALUE IS " + Double.toString(value));
 

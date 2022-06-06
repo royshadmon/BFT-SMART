@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f0538279-4b1a-4a8f-81e7-c2a5815cf12b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/wind-data-test.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/system.config" beforeDir="false" afterPath="$PROJECT_DIR$/config/system.config" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/BFT-SMaRt.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/BFT-SMaRt.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/StreamClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/StreamClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/StreamServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/StreamServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/wind-data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/wind-data.csv" afterDir="false" />
-    </list>
+    <list default="true" id="f0538279-4b1a-4a8f-81e7-c2a5815cf12b" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -98,7 +90,7 @@
       <updated>1654178112728</updated>
       <workItem from="1654178113968" duration="4738000" />
       <workItem from="1654188943611" duration="12374000" />
-      <workItem from="1654379087297" duration="18739000" />
+      <workItem from="1654379087297" duration="18914000" />
     </task>
     <servers />
   </component>
