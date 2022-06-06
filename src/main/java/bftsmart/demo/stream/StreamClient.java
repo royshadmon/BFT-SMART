@@ -23,9 +23,12 @@ import java.io.IOException;
 
 import java.util.*;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
 import java.util.Scanner; // used to read from CSV file
 //import java.util.Timer;
 import java.math.BigInteger;
+import java.io.FileInputStream;
 
 import bftsmart.tom.ServiceProxy;
 
@@ -45,11 +48,44 @@ public class StreamClient {
         }
         final long nanoSecondsPerSecond = 1000000;
         long stopWatchStartTime = 0;
-        int numSimulations = 5;
+        int numSimulations = 1;
         int inc = Integer.parseInt(args[1]);
+
+
         ServiceProxy counterProxy = new ServiceProxy(Integer.parseInt(args[0]));
-        System.out.println("HELLO IS THE BUILD WORKING?");
-        System.out.println(System.getProperty("user.dir"));
+
+        double latencies[];
+        latencies = new double[numSimulations];
+
+        Properties prop = new Properties();
+        String fileName = "config/system.config";
+        try (FileInputStream fis = new FileInputStream(fileName)) {
+            prop.load(fis);
+        }
+//        catch (FileNotFoundException ex) {
+//            System.out.println("IN FILE NOT FOUND READING CONFIG FILE");
+//        }
+        catch (IOException ex) {
+            System.out.println("IN IOEXCEPTION READING CONFIG FILE");
+        }
+        System.out.println("Printing THE CONFIG FILE");
+        int f = Integer.valueOf(prop.getProperty("system.servers.f"));
+        System.out.println(prop.getProperty("system.servers.num"));
+        double latencyRate = Double.valueOf(prop.getProperty("system.servers.rate"));
+        System.out.println("RATE IS ");
+        System.out.println(latencyRate);
+//        String outputFile = "~\\latency-" + Integer.toString(f) + "-" + Double.toString(latencyRate) + ".txt";
+        String outputFile = "latency-" + Integer.toString(f) + "-" + Double.toString(latencyRate) + ".txt";
+        FileWriter myWriter = new FileWriter(outputFile);
+        BufferedWriter bWriter = new BufferedWriter(myWriter);
+        bWriter.write("hello");
+        bWriter.newLine();
+
+
+
+
+
+//        bWriter = new BufferedWriter(myWriter);
 
         int sensor = 1;
         for (int i=0; i<numSimulations; i++) {
@@ -59,23 +95,14 @@ public class StreamClient {
 
 
             while (sc.hasNext()) {
-//                System.out.println(sc.next());
                 try {
                     double value = Double.valueOf(sc.next());
-//                    double value = 12.12;
                     System.out.println("THE VALUE IS " + Double.toString(value));
-//                    int inc = Integer.parseInt(args[1]);
-//                    int numberOfOps = (args.length > 2) ? Integer.parseInt(args[2]) : 1000;
-
-//                    for (int i = 0; i < numberOfOps; i++) {
 
                     stopWatchStartTime = System.nanoTime();
 
                     ByteArrayOutputStream out = new ByteArrayOutputStream(10);
-                    System.out.println("HERE1");
                     new DataOutputStream(out).writeDouble(value);
-                    System.out.println("HERE2");
-//                    System.out.print("Invocation " + i);
                     byte[] reply = (inc == 0)?
                             counterProxy.invokeUnordered(out.toByteArray()):
                             counterProxy.invokeOrdered(out.toByteArray()); //magic happens here
@@ -94,44 +121,24 @@ public class StreamClient {
                 sensor += 1;
                 if (sensor == 5) {
                     long elapsedTime;
-                    elapsedTime = System.nanoTime() - stopWatchStartTime;
-                    System.out.println("ELAPSED TIME IS " + Long.toString(elapsedTime/nanoSecondsPerSecond));
-                    System.out.println("SENSOR IS 5");
+                    elapsedTime = (System.nanoTime() - stopWatchStartTime)/nanoSecondsPerSecond;
+                    System.out.println("ELAPSED TIME IS " + Long.toString(elapsedTime));
                     sensor = 1;
-
+                    // We need to write to file the time or to an array
+                    bWriter.write(String.valueOf(elapsedTime));
+                    bWriter.newLine();
                 }
             }
             sc.close();
 
 
         }
+        System.out.println("CLOSING WRITER");
+        bWriter.close();
+        System.out.println("CLOSING WRITER2");
+        myWriter.close();
+        System.out.println("CLOSING WRITER3");
+        System.exit(0);
 
-
-//        try {
-//
-//            int inc = Integer.parseInt(args[1]);
-//            int numberOfOps = (args.length > 2) ? Integer.parseInt(args[2]) : 1000;
-//
-//            for (int i = 0; i < numberOfOps; i++) {
-//
-//                ByteArrayOutputStream out = new ByteArrayOutputStream(4);
-//                new DataOutputStream(out).writeInt(inc);
-//
-//                System.out.print("Invocation " + i);
-//                byte[] reply = (inc == 0)?
-//                        counterProxy.invokeUnordered(out.toByteArray()):
-//                	counterProxy.invokeOrdered(out.toByteArray()); //magic happens here
-//
-//                if(reply != null) {
-//                    int newValue = new DataInputStream(new ByteArrayInputStream(reply)).readInt();
-//                    System.out.println(", returned value: " + newValue);
-//                } else {
-//                    System.out.println(", ERROR! Exiting.");
-//                    break;
-//                }
-//            }
-//        } catch(IOException | NumberFormatException e){
-//            counterProxy.close();
-//        }
     }
 }

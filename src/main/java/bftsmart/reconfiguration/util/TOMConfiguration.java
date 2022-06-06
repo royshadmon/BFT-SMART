@@ -29,6 +29,7 @@ public class TOMConfiguration extends Configuration {
 
     protected int n;
     protected int f;
+    protected String rate;
     protected int requestTimeout;
     protected int batchTimeout;
     protected int tomPeriod;
@@ -93,6 +94,8 @@ public class TOMConfiguration extends Configuration {
             } else {
                 f = Integer.parseInt(s);
             }
+//            rate = Integer.parseInt(configs.remove("system.servers.rate"));
+            rate = (String) configs.remove("system.servers.rate");
 
             s = (String) configs.remove("system.shutdownhook");
             shutdownHookEnabled = (s != null) ? Boolean.parseBoolean(s) : false;

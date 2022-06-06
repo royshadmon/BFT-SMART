@@ -32,6 +32,8 @@ import java.util.concurrent.TimeUnit; // used to make the replica server sleep;
 import org.uncommons.maths.random.ExponentialGenerator; //used for the random number generator
 import org.uncommons.maths.random.MersenneTwisterRNG;
 import java.util.Random;
+import java.util.*;
+import java.io.FileInputStream;
 
 /**
  * Example replica that implements a BFT replicated service (a stream).
@@ -49,11 +51,32 @@ public final class StreamServer extends DefaultSingleRecoverable  {
 //    Random rng = new MersenneTwisterRNG();
     Random num = new Random();
 
+    private static Properties prop = new Properties();
+    private static String fileName = "config/system.config";
+    private static double rate;
+//    double rate = Double.valueOf(prop.getProperty("system.servers.rate"));
+    private static ExponentialGenerator gen;
 
-    ExponentialGenerator gen = new ExponentialGenerator(0.5, num);
+
+//    double latencyRate = Double.valueOf(rate);
+//    double latencyRate = 0.5;
+
+//    ExponentialGenerator gen = new ExponentialGenerator(0.5, num);
 
 
     public StreamServer(int id) {
+//        Properties prop = new Properties();
+//        String fileName = "config/system.config";
+        try (FileInputStream fis = new FileInputStream(fileName)) {
+            prop.load(fis);
+        }
+        catch (IOException ex) {
+            System.out.println("IN IOEXCEPTION READING CONFIG FILE");
+        }
+//        Random num = new Random();
+        rate = Double.valueOf(prop.getProperty("system.servers.rate"));
+        gen = new ExponentialGenerator(0.5, num);
+
     	new ServiceReplica(id, this, this);
     }
 
@@ -80,7 +103,8 @@ public final class StreamServer extends DefaultSingleRecoverable  {
             counter += increment;
 
             System.out.println("(" + iterations + ") Counter was incremented. Current value = " + counter);
-
+//            System.out.println("RATE IS " + rate);
+            System.out.println();
             double sleepTime = gen.nextValue();
             System.out.println("RANDOM NUMBER IS " + Double.toString(sleepTime));
             long sT = (long) sleepTime;
