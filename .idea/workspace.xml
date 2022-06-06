@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f0538279-4b1a-4a8f-81e7-c2a5815cf12b" name="Default Changelist" comment="" />
+    <list default="true" id="f0538279-4b1a-4a8f-81e7-c2a5815cf12b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/startStreamServerCC.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/system.config" beforeDir="false" afterPath="$PROJECT_DIR$/config/system.config" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,7 +55,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Libraries" />
@@ -63,6 +66,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream" />
       <recent name="$PROJECT_DIR$/src/bftsmart/demo/stream" />
     </key>
@@ -90,7 +94,7 @@
       <updated>1654178112728</updated>
       <workItem from="1654178113968" duration="4738000" />
       <workItem from="1654188943611" duration="12374000" />
-      <workItem from="1654379087297" duration="18914000" />
+      <workItem from="1654379087297" duration="19528000" />
     </task>
     <servers />
   </component>
@@ -109,11 +113,11 @@
       <screen x="0" y="25" width="2560" height="1017" />
     </state>
     <state x="1354" y="313" key="#com.intellij.fileTypes.FileTypeChooser/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654217840101" />
-    <state x="868" y="210" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1654474172401">
-      <screen x="0" y="25" width="1680" height="987" />
+    <state x="1323" y="216" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1654524960906">
+      <screen x="0" y="25" width="2560" height="1017" />
     </state>
     <state x="868" y="210" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.25.1680.987@0.25.1680.987" timestamp="1654474172401" />
-    <state x="1323" y="216" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654218958291" />
+    <state x="1323" y="216" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654524960906" />
     <state x="875" y="25" key="SettingsEditor" timestamp="1654387002561">
       <screen x="0" y="25" width="2560" height="1017" />
     </state>
