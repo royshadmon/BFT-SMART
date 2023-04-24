@@ -43,7 +43,10 @@ public class CounterClient extends Thread{
         // Create concurrent linked queue
         Queue<Double> queue = new ConcurrentLinkedQueue<>();
 
-        ServiceProxy counterProxy = new ServiceProxy(Integer.parseInt(args[0]), "/Users/royshadmon/BFT-SMART/config/hosts.config");
+        String config_input = args[3];
+        String config_output = args[4];
+
+        ServiceProxy counterProxy = new ServiceProxy(Integer.parseInt(args[0]), config_input);
         System.out.println("HEREHEREHRERE");
         System.out.println(args[0]);
         try {
@@ -64,6 +67,14 @@ public class CounterClient extends Thread{
                 if(reply != null) {
                     int newValue = new DataInputStream(new ByteArrayInputStream(reply)).readInt();
                     System.out.println(", returned value: " + newValue);
+                    ServiceProxy counterProxy_forward = new ServiceProxy(Integer.parseInt(args[0]), config_output);
+                    ByteArrayOutputStream out_forward = new ByteArrayOutputStream(4);
+                    new DataOutputStream(out_forward).writeInt(newValue);
+                    byte[] reply_forward = (inc == 0)?
+                            counterProxy_forward.invokeUnordered(out_forward.toByteArray()):
+                            counterProxy_forward.invokeOrdered(out_forward.toByteArray()); //mag
+                    System.out.println("FORWARD REPLY " + reply_forward);
+
                 } else {
                     System.out.println(", ERROR! Exiting.");
                     break;
