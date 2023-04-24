@@ -77,7 +77,7 @@ public final class StreamServer extends DefaultSingleRecoverable  {
         rate = Double.valueOf(prop.getProperty("system.servers.rate"));
         gen = new ExponentialGenerator(0.5, num);
 
-    	new ServiceReplica(id, this, this);
+    	new ServiceReplica(id, this, this, "");
     }
 
     @Override

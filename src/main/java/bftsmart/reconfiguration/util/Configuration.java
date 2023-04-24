@@ -324,6 +324,16 @@ public class Configuration {
 			String sep = System.getProperty("file.separator");
 			String path = configHome + sep + "system.config";
 			;
+			// Adding this to support custom hosts.config file
+			if (configHome.endsWith(".config")) {
+				// Remove the last element from the array
+				String[] myArray = configHome.split("/");
+				String[] newArray = new String[myArray.length-1];
+				// Copy all elements from the original array to the new array, except for the last one
+				System.arraycopy(myArray, 0, newArray, 0, myArray.length - 1);
+				// Convert array back to a string
+				path = String.join("/", newArray) + sep + "system.config";
+			}
 			FileReader fr = new FileReader(path);
 			BufferedReader rd = new BufferedReader(fr);
 			String line = null;

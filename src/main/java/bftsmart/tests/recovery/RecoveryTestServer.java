@@ -37,7 +37,7 @@ public class RecoveryTestServer extends DefaultSingleRecoverable {
 			state[i] = (byte) i;
 		}
 		senders = new HashSet<>(1000);
-		new ServiceReplica(processId, this, this);
+		new ServiceReplica(processId, this, this, "");
 	}
 
 	@Override

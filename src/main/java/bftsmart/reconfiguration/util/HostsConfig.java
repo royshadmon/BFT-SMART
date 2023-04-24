@@ -38,16 +38,23 @@ public class HostsConfig {
         try{
             String path =  "";
             String sep = System.getProperty("file.separator");
-            if(configHome.equals("")){
-                   if (fileName.equals(""))
-                        path = "config"+sep+"hosts.config";
-                   else
-                        path = "config"+sep+fileName;
-            }else{
-                   if (fileName.equals(""))
-                        path = configHome+sep+"hosts.config";
-                   else
-                       path = configHome+sep+fileName;
+
+            // if we specify a config file, then load it and use it
+            if (configHome.endsWith(".config")) {
+                path = configHome;
+            }
+            else{
+                if (configHome.equals("")) {
+                    if (fileName.equals(""))
+                        path = "config" + sep + "hosts.config";
+                    else
+                        path = "config" + sep + fileName;
+                } else {
+                    if (fileName.equals(""))
+                        path = configHome + sep + "hosts.config";
+                    else
+                        path = configHome + sep + fileName;
+                }
             }
             FileReader fr = new FileReader(path);
             BufferedReader rd = new BufferedReader(fr);

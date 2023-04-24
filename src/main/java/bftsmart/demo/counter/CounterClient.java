@@ -20,6 +20,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import bftsmart.tom.ServiceProxy;
 
@@ -28,7 +30,7 @@ import bftsmart.tom.ServiceProxy;
  * 
  * @author alysson
  */
-public class CounterClient {
+public class CounterClient extends Thread{
 
     public static void main(String[] args) throws IOException {
         if (args.length < 2) {
@@ -38,8 +40,12 @@ public class CounterClient {
             System.exit(-1);
         }
 
-        ServiceProxy counterProxy = new ServiceProxy(Integer.parseInt(args[0]));
-        
+        // Create concurrent linked queue
+        Queue<Double> queue = new ConcurrentLinkedQueue<>();
+
+        ServiceProxy counterProxy = new ServiceProxy(Integer.parseInt(args[0]), "/Users/royshadmon/BFT-SMART/config/hosts.config");
+        System.out.println("HEREHEREHRERE");
+        System.out.println(args[0]);
         try {
 
             int inc = Integer.parseInt(args[1]);

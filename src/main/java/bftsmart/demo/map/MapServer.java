@@ -24,7 +24,7 @@ public class MapServer<K, V> extends DefaultSingleRecoverable {
 	public MapServer(int id) {
 		replicaMap = new TreeMap<>();
 		logger = Logger.getLogger(MapServer.class.getName());
-		new ServiceReplica(id, this, this);
+		new ServiceReplica(id, this, this, "");
 	}
 
 	public static void main(String[] args) {

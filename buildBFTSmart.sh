@@ -9,5 +9,6 @@ rm lib/bcprov-jdk15on-1.69.jar
 rm lib/logback-classic-1.2.5.jar
 ./gradlew installDist
 cp build/install/BFT-SMART/lib/* lib/
+cp ./build/install/BFT-SMART/smartrun.sh runscripts
 
 

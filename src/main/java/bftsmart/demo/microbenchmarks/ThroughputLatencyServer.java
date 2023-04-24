@@ -119,7 +119,7 @@ public final class ThroughputLatencyServer extends DefaultRecoverable{
                 System.exit(0);
             }
         }
-        replica = new ServiceReplica(id, this, this);
+        replica = new ServiceReplica(id, this, this, "");
     }
     
     @Override

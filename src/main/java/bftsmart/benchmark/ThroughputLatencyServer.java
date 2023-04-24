@@ -33,7 +33,7 @@ public class ThroughputLatencyServer extends DefaultSingleRecoverable {
 
 	public ThroughputLatencyServer(int processId) {
 		senders = new HashSet<>(1000);
-		new ServiceReplica(processId, this, this);
+		new ServiceReplica(processId, this, this, "");
 	}
 
 	@Override

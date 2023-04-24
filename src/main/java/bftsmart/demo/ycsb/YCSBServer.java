@@ -50,7 +50,7 @@ public class YCSBServer extends DefaultRecoverable {
 
     private YCSBServer(int id) {
         this.mTables = new TreeMap<>();
-        new ServiceReplica(id, this, this);
+        new ServiceReplica(id, this, this, "");
     }
 
     @Override

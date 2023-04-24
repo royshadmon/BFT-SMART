@@ -41,8 +41,9 @@ public final class CounterServer extends DefaultSingleRecoverable  {
     private int counter = 0;
     private int iterations = 0;
     
-    public CounterServer(int id) {
-    	new ServiceReplica(id, this, this);
+    public CounterServer(int id, String configFile) {
+        System.out.println("USING CONFIG FILE " + configFile);
+    	new ServiceReplica(id, this, this, configFile);
     }
             
     @Override
@@ -81,8 +82,10 @@ public final class CounterServer extends DefaultSingleRecoverable  {
         if(args.length < 1) {
             System.out.println("Use: java CounterServer <processId>");
             System.exit(-1);
-        }      
-        new CounterServer(Integer.parseInt(args[0]));
+        }
+        String configFile = args[1];
+//        configFile = "";
+        new CounterServer(Integer.parseInt(args[0]), configFile);
     }
 
     

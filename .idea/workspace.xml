@@ -5,8 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0538279-4b1a-4a8f-81e7-c2a5815cf12b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/startStreamServerCC.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/system.config" beforeDir="false" afterPath="$PROJECT_DIR$/config/system.config" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/hosts-l2.config" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/smartrun.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buildBFTSmart.sh" beforeDir="false" afterPath="$PROJECT_DIR$/buildBFTSmart.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/hosts.config" beforeDir="false" afterPath="$PROJECT_DIR$/config/hosts.config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/BFT-SMaRt.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/BFT-SMaRt.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/benchmark/ThroughputLatencyServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/benchmark/ThroughputLatencyServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/map/MapServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/map/MapServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/microbenchmarks/ThroughputLatencyServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/microbenchmarks/ThroughputLatencyServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/StreamServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/stream/StreamServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/ycsb/YCSBServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/ycsb/YCSBServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/reconfiguration/util/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/reconfiguration/util/Configuration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/reconfiguration/util/HostsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/reconfiguration/util/HostsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/tests/recovery/RecoveryTestServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/tests/recovery/RecoveryTestServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/tom/ServiceReplica.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/tom/ServiceReplica.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/startCounterServer.sh" beforeDir="false" afterPath="$PROJECT_DIR$/startCounterServer.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,16 +45,24 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="JupyterTrust" id="dcae028a-2885-4e6d-8d53-1a5650a52d99" />
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
-      </MavenGeneralSettings>
-    </option>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
@@ -45,25 +74,17 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="Downloaded.Files.Path.Enabled" value="true" />
-    <property name="Repository.Attach.Annotations" value="false" />
-    <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="Repository.Attach.Sources" value="false" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Libraries" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.build" />
-    <property name="show.unlinked.gradle.project.popup" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Problems",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.keymap"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -71,7 +92,7 @@
       <recent name="$PROJECT_DIR$/src/bftsmart/demo/stream" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.CounterClient">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -83,6 +104,48 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="CounterClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="bftsmart.demo.counter.CounterClient" />
+      <module name="BFT-SMART.main" />
+      <option name="PROGRAM_PARAMETERS" value="1001 1 1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="bftsmart.demo.counter.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CounterServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="bftsmart.demo.counter.CounterServer" />
+      <module name="BFT-SMART.main" />
+      <option name="PROGRAM_PARAMETERS" value="0 $PROJECT_DIR$/config/hosts.config $PROJECT_DIR$/config/hosts.config" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="bftsmart.demo.counter.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.CounterServer" />
+      <item itemvalue="Application.CounterClient" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.CounterServer" />
+        <item itemvalue="Application.CounterClient" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -95,6 +158,7 @@
       <workItem from="1654178113968" duration="4738000" />
       <workItem from="1654188943611" duration="12374000" />
       <workItem from="1654379087297" duration="19528000" />
+      <workItem from="1682350995989" duration="10464000" />
     </task>
     <servers />
   </component>
@@ -104,39 +168,59 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="343" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1654187532670">
-      <screen x="0" y="25" width="2560" height="1017" />
-    </state>
-    <state x="343" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654187532670" />
-    <state x="1354" y="313" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1654217840101">
-      <screen x="0" y="25" width="2560" height="1017" />
-    </state>
-    <state x="1354" y="313" key="#com.intellij.fileTypes.FileTypeChooser/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654217840101" />
-    <state x="1323" y="216" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1654524960906">
-      <screen x="0" y="25" width="2560" height="1017" />
-    </state>
-    <state x="868" y="210" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.25.1680.987@0.25.1680.987" timestamp="1654474172401" />
-    <state x="1323" y="216" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654524960906" />
-    <state x="875" y="25" key="SettingsEditor" timestamp="1654387002561">
-      <screen x="0" y="25" width="2560" height="1017" />
-    </state>
-    <state x="875" y="25" key="SettingsEditor/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654387002561" />
-    <state x="1150" y="412" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1654386989577">
-      <screen x="0" y="25" width="2560" height="1017" />
-    </state>
-    <state x="1150" y="412" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654386989577" />
-    <state x="713" y="46" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1654477363755">
-      <screen x="0" y="25" width="1680" height="987" />
-    </state>
-    <state x="713" y="46" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.25.1680.987@0.25.1680.987" timestamp="1654477363755" />
-    <state x="726" y="99" key="editAsTableFormatDialogDimension" timestamp="1654383020973">
-      <screen x="0" y="25" width="2560" height="1017" />
-    </state>
-    <state x="726" y="99" key="editAsTableFormatDialogDimension/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654383020973" />
-    <state x="965" y="38" width="734" height="969" key="find.popup" timestamp="1654212155062">
-      <screen x="0" y="25" width="2560" height="1017" />
-    </state>
-    <state x="965" y="38" width="734" height="969" key="find.popup/2560.562.1680.1025/0.25.2560.1017@0.25.2560.1017" timestamp="1654212155062" />
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java</url>
+          <line>45</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/tom/ServiceReplica.java</url>
+          <line>101</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/tom/ServiceReplica.java</url>
+          <line>110</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/tom/ServiceReplica.java</url>
+          <line>119</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/reconfiguration/ViewController.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/reconfiguration/util/HostsConfig.java</url>
+          <line>42</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/reconfiguration/util/HostsConfig.java</url>
+          <line>74</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/reconfiguration/util/Configuration.java</url>
+          <line>89</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/reconfiguration/util/Configuration.java</url>
+          <line>327</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

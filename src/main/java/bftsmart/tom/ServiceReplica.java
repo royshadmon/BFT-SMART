@@ -86,8 +86,8 @@ public class ServiceReplica {
      * @param executor Executor
      * @param recoverer Recoverer
      */
-    public ServiceReplica(int id, Executable executor, Recoverable recoverer) {
-        this(id, "", executor, recoverer, null, new DefaultReplier(), null);
+    public ServiceReplica(int id, Executable executor, Recoverable recoverer, String configFile) {
+        this(id, configFile, executor, recoverer, null, new DefaultReplier(), null);
     }
 
     /**
@@ -98,8 +98,8 @@ public class ServiceReplica {
      * @param recoverer Recoverer
      * @param verifier Requests verifier
      */
-    public ServiceReplica(int id, Executable executor, Recoverable recoverer, RequestVerifier verifier) {
-        this(id, "", executor, recoverer, verifier, new DefaultReplier(), null);
+    public ServiceReplica(int id, Executable executor, Recoverable recoverer, RequestVerifier verifier, String configFile) {
+        this(id, configFile, executor, recoverer, verifier, new DefaultReplier(), null);
     }
     
     /**
