@@ -88,7 +88,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="bftsmart.demo.counter.CounterClient" />
       <module name="BFT-SMART.main" />
-      <option name="PROGRAM_PARAMETERS" value="1001 1 1 $PROJECT_DIR$/config/hosts.config $PROJECT_DIR$/config/hosts-l2.config" />
+      <option name="PROGRAM_PARAMETERS" value="1001 1 10 $PROJECT_DIR$/config/hosts.config $PROJECT_DIR$/config/hosts-l2.config" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="bftsmart.demo.counter.*" />
@@ -137,7 +137,7 @@
       <workItem from="1654178113968" duration="4738000" />
       <workItem from="1654188943611" duration="12374000" />
       <workItem from="1654379087297" duration="19528000" />
-      <workItem from="1682350995989" duration="12928000" />
+      <workItem from="1682350995989" duration="15847000" />
     </task>
     <servers />
   </component>
@@ -172,8 +172,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java</url>
-          <line>70</line>
+          <line>80</line>
           <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java</url>
+          <line>77</line>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java</url>
+          <line>113</line>
+          <option name="timeStamp" value="33" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

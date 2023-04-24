@@ -30,8 +30,10 @@ import bftsmart.tom.ServiceProxy;
  * 
  * @author alysson
  */
-public class CounterClient extends Thread{
-
+public class CounterClient implements Runnable{
+    public static Queue<Double> queue = new ConcurrentLinkedQueue<>();
+    public static String config_output;
+    public static String client_id;
     public static void main(String[] args) throws IOException {
         if (args.length < 2) {
             System.out.println("Usage: java ... CounterClient <process id> <increment> [<number of operations>]");
@@ -41,21 +43,25 @@ public class CounterClient extends Thread{
         }
 
         // Create concurrent linked queue
-        Queue<Double> queue = new ConcurrentLinkedQueue<>();
 
+        client_id = args[0];
         String config_input = args[3];
-        String config_output = args[4];
+        config_output = args[4];
 
         ServiceProxy counterProxy = new ServiceProxy(Integer.parseInt(args[0]), config_input);
-        System.out.println("HEREHEREHRERE");
         System.out.println(args[0]);
         try {
 
             int inc = Integer.parseInt(args[1]);
             int numberOfOps = (args.length > 2) ? Integer.parseInt(args[2]) : 1000;
 
-            for (int i = 0; i < numberOfOps; i++) {
+            // Start the background thread
+            CounterClient c = new CounterClient();
+            Thread t = new Thread(c);
+            t.start(); // Starts the run() function
 
+            for (int i = 0; i < numberOfOps; i++) {
+                System.out.println("I IS " + i);
                 ByteArrayOutputStream out = new ByteArrayOutputStream(4);
                 new DataOutputStream(out).writeInt(inc);
 
@@ -67,13 +73,8 @@ public class CounterClient extends Thread{
                 if(reply != null) {
                     int newValue = new DataInputStream(new ByteArrayInputStream(reply)).readInt();
                     System.out.println(", returned value: " + newValue);
-                    ServiceProxy counterProxy_forward = new ServiceProxy(Integer.parseInt(args[0]), config_output);
-                    ByteArrayOutputStream out_forward = new ByteArrayOutputStream(4);
-                    new DataOutputStream(out_forward).writeInt(newValue);
-                    byte[] reply_forward = (inc == 0)?
-                            counterProxy_forward.invokeUnordered(out_forward.toByteArray()):
-                            counterProxy_forward.invokeOrdered(out_forward.toByteArray()); //mag
-                    System.out.println("FORWARD REPLY " + reply_forward);
+                    queue.offer((double) newValue); // offer returns true or false on success, add will throw an exception if it fails
+
 
                 } else {
                     System.out.println(", ERROR! Exiting.");
@@ -83,5 +84,47 @@ public class CounterClient extends Thread{
         } catch(IOException | NumberFormatException e){
             counterProxy.close();
         }
+    }
+
+    public static void process_data() {
+
+    }
+
+
+    public static void process_response(String id, String config_output) {
+//        System.out.println("HEREHERHERHERHERHERHERHEHREHREHRHERHERHEHREHRE");
+        double val;
+        ServiceProxy counterProxy_forward = new ServiceProxy(Integer.parseInt(id), config_output);
+        while (true) {
+            if (queue.isEmpty()) {
+                try {
+                    Thread.sleep(100);
+                    continue;
+                } catch(InterruptedException e) {
+                    System.out.println("Thread interrupted");
+                }
+
+            }
+            else {
+                try {
+                    val = queue.poll(); // ensures that we process data in FIFO
+                    ByteArrayOutputStream out_forward = new ByteArrayOutputStream(4);
+                    new DataOutputStream(out_forward).writeInt((int) val);
+                    byte[] reply_forward = (val == 0)?
+                            counterProxy_forward.invokeUnordered(out_forward.toByteArray()):
+                            counterProxy_forward.invokeOrdered(out_forward.toByteArray());
+                    System.out.println("FORWARD REPLY " + reply_forward);
+                }catch(IOException | NumberFormatException e){
+                    System.out.println("IN EXCEPTION");
+                    counterProxy_forward.close();
+                }
+
+            }
+        }
+    }
+
+    @Override
+    public void run() {
+        process_response(client_id, config_output);
     }
 }
