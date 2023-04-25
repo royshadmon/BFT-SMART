@@ -38,7 +38,7 @@ import java.io.ObjectOutputStream;
 
 public final class CounterServer extends DefaultSingleRecoverable  {
     
-    private int counter = 0;
+    private double counter = 0;
     private int iterations = 0;
     
     public CounterServer(int id, String configFile) {
@@ -52,7 +52,7 @@ public final class CounterServer extends DefaultSingleRecoverable  {
         System.out.println("(" + iterations + ") Counter current value: " + counter);
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream(4);
-            new DataOutputStream(out).writeInt(counter);
+            new DataOutputStream(out).writeDouble(counter);
             return out.toByteArray();
         } catch (IOException ex) {
             System.err.println("Invalid request received!");
@@ -64,13 +64,14 @@ public final class CounterServer extends DefaultSingleRecoverable  {
     public byte[] appExecuteOrdered(byte[] command, MessageContext msgCtx) {
         iterations++;
         try {
-            int increment = new DataInputStream(new ByteArrayInputStream(command)).readInt();
-            counter += increment;
+            double received_data = new DataInputStream(new ByteArrayInputStream(command)).readDouble();
+//            counter += increment;
+            counter = computation(received_data);
             
-            System.out.println("(" + iterations + ") Counter was incremented. Current value = " + counter);
+            System.out.println("(" + iterations + ") Counter was processed. Current value = " + counter);
             
             ByteArrayOutputStream out = new ByteArrayOutputStream(4);
-            new DataOutputStream(out).writeInt(counter);
+            new DataOutputStream(out).writeDouble(counter);
             return out.toByteArray();
         } catch (IOException ex) {
             System.err.println("Invalid request received!");
@@ -109,7 +110,7 @@ public final class CounterServer extends DefaultSingleRecoverable  {
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             ObjectOutput out = new ObjectOutputStream(bos);
-            out.writeInt(counter);
+            out.writeDouble(counter);
             out.flush();
             bos.flush();
             out.close();
@@ -120,5 +121,9 @@ public final class CounterServer extends DefaultSingleRecoverable  {
                     + ioe.getMessage());
             return "ERROR".getBytes();
         }
+    }
+
+    public double computation(double v) {
+        return v/2;
     }
 }

@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0538279-4b1a-4a8f-81e7-c2a5815cf12b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buildBFTSmart.sh" beforeDir="false" afterPath="$PROJECT_DIR$/buildBFTSmart.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/BFT-SMaRt.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/BFT-SMaRt.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterServer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,8 +125,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.CounterServer" />
         <item itemvalue="Application.CounterClient" />
+        <item itemvalue="Application.CounterServer" />
       </list>
     </recent_temporary>
   </component>
@@ -142,7 +142,7 @@
       <workItem from="1654188943611" duration="12374000" />
       <workItem from="1654379087297" duration="19528000" />
       <workItem from="1682350995989" duration="17093000" />
-      <workItem from="1682432319789" duration="3390000" />
+      <workItem from="1682432319789" duration="5812000" />
     </task>
     <servers />
   </component>
@@ -177,13 +177,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java</url>
-          <line>114</line>
+          <line>116</line>
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java</url>
-          <line>55</line>
-          <option name="timeStamp" value="34" />
+          <line>72</line>
+          <option name="timeStamp" value="35" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

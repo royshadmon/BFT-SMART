@@ -64,11 +64,13 @@ public class CounterClient implements Runnable {
             CounterClient c = new CounterClient();
             Thread t = new Thread(c);
             t.start(); // Starts the run() function
-
-            for (int i = 0; i < numberOfOps; i++) {
+            double val;
+            for (int i = 0; i < src_data_queue.size(); i++) {
                 System.out.println("INC IS " + inc);
                 ByteArrayOutputStream out = new ByteArrayOutputStream(4);
-                new DataOutputStream(out).writeInt(inc);
+                 val = src_data_queue.poll();
+                System.out.println("VAL IS " + val + " Out is " + out.toString());
+                new DataOutputStream(out).writeDouble(val);
 
                 System.out.print("Invocation " + i);
                 byte[] reply = (inc == 0) ?
@@ -76,7 +78,7 @@ public class CounterClient implements Runnable {
                         counterProxy.invokeOrdered(out.toByteArray()); //magic happens here
 
                 if (reply != null) {
-                    int newValue = new DataInputStream(new ByteArrayInputStream(reply)).readInt();
+                    double newValue = new DataInputStream(new ByteArrayInputStream(reply)).readDouble();
                     System.out.println(", returned value: " + newValue);
                     queue.offer((double) newValue); // offer returns true or false on success, add will throw an exception if it fails
 
@@ -113,7 +115,7 @@ public class CounterClient implements Runnable {
                 try {
                     val = queue.poll(); // ensures that we process data in FIFO
                     ByteArrayOutputStream out_forward = new ByteArrayOutputStream(4);
-                    new DataOutputStream(out_forward).writeInt((int) val);
+                    new DataOutputStream(out_forward).writeDouble(val);
                     byte[] reply_forward = (val == 0) ?
                             counterProxy_forward.invokeUnordered(out_forward.toByteArray()) :
                             counterProxy_forward.invokeOrdered(out_forward.toByteArray());
@@ -144,7 +146,7 @@ public class CounterClient implements Runnable {
             src_data_queue = new ConcurrentLinkedQueue<>();
             while ((record = csvReader.readNext()) != null) {
                 try {
-                    System.out.println("User[" + String.join(", ", record) + "]");
+//                    System.out.println("User[" + String.join(", ", record) + "]");
                     src_data_queue.offer(Double.parseDouble(record[5]));
                 }catch (NumberFormatException e) {
                     System.out.println("Skipping column header");

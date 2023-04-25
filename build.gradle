@@ -137,6 +137,20 @@ distributions {
     }
 }
 
+// Add this for IntelliJ compilation
+// https://github.com/gradle/gradle/issues/17236
+task sourcesJar(type: Jar) {
+    duplicatesStrategy = 'include'
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+
 dependencies {
     implementation fileTree('lib'){include '*.jar'}
     // https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk15on
