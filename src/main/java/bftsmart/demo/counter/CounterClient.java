@@ -15,25 +15,27 @@ limitations under the License.
 */
 package bftsmart.demo.counter;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import bftsmart.tom.ServiceProxy;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 
 /**
  * Example client that updates a BFT replicated service (a counter).
  * 
  * @author alysson
  */
-public class CounterClient implements Runnable{
+public class CounterClient implements Runnable {
     public static Queue<Double> queue = new ConcurrentLinkedQueue<>();
+
     public static String config_output;
     public static String client_id;
+
     public static void main(String[] args) throws IOException {
         if (args.length < 2) {
             System.out.println("Usage: java ... CounterClient <process id> <increment> [<number of operations>]");
@@ -47,6 +49,9 @@ public class CounterClient implements Runnable{
         client_id = args[0];
         String config_input = args[3];
         config_output = args[4];
+        String data_file_name = System.getenv("HOME") + "/Centauri/data/may-june-2018.csv";
+        Queue<Double> src_data_queue = read_csv(data_file_name);
+
 
         ServiceProxy counterProxy = new ServiceProxy(Integer.parseInt(args[0]), config_input);
         System.out.println(args[0]);
@@ -61,16 +66,16 @@ public class CounterClient implements Runnable{
             t.start(); // Starts the run() function
 
             for (int i = 0; i < numberOfOps; i++) {
-                System.out.println("I IS " + i);
+                System.out.println("INC IS " + inc);
                 ByteArrayOutputStream out = new ByteArrayOutputStream(4);
                 new DataOutputStream(out).writeInt(inc);
 
                 System.out.print("Invocation " + i);
-                byte[] reply = (inc == 0)?
-                        counterProxy.invokeUnordered(out.toByteArray()):
-                	counterProxy.invokeOrdered(out.toByteArray()); //magic happens here
-                
-                if(reply != null) {
+                byte[] reply = (inc == 0) ?
+                        counterProxy.invokeUnordered(out.toByteArray()) :
+                        counterProxy.invokeOrdered(out.toByteArray()); //magic happens here
+
+                if (reply != null) {
                     int newValue = new DataInputStream(new ByteArrayInputStream(reply)).readInt();
                     System.out.println(", returned value: " + newValue);
                     queue.offer((double) newValue); // offer returns true or false on success, add will throw an exception if it fails
@@ -81,7 +86,7 @@ public class CounterClient implements Runnable{
                     break;
                 }
             }
-        } catch(IOException | NumberFormatException e){
+        } catch (IOException | NumberFormatException e) {
             counterProxy.close();
         }
     }
@@ -100,21 +105,20 @@ public class CounterClient implements Runnable{
                 try {
                     Thread.sleep(100);
                     continue;
-                } catch(InterruptedException e) {
+                } catch (InterruptedException e) {
                     System.out.println("Thread interrupted");
                 }
 
-            }
-            else {
+            } else {
                 try {
                     val = queue.poll(); // ensures that we process data in FIFO
                     ByteArrayOutputStream out_forward = new ByteArrayOutputStream(4);
                     new DataOutputStream(out_forward).writeInt((int) val);
-                    byte[] reply_forward = (val == 0)?
-                            counterProxy_forward.invokeUnordered(out_forward.toByteArray()):
+                    byte[] reply_forward = (val == 0) ?
+                            counterProxy_forward.invokeUnordered(out_forward.toByteArray()) :
                             counterProxy_forward.invokeOrdered(out_forward.toByteArray());
                     System.out.println("FORWARD REPLY " + reply_forward);
-                }catch(IOException | NumberFormatException e){
+                } catch (IOException | NumberFormatException e) {
                     System.out.println("IN EXCEPTION");
                     counterProxy_forward.close();
                 }
@@ -126,5 +130,31 @@ public class CounterClient implements Runnable{
     @Override
     public void run() {
         process_response(client_id, config_output);
+    }
+
+    public static Queue<Double> read_csv(String csvFilename) {
+        // create a csv reader
+        Queue<Double> src_data_queue = null;
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilename));
+             CSVReader csvReader = new CSVReader(reader)) {
+
+            // read one record at a time
+            String[] record;
+            // initialize queue
+            src_data_queue = new ConcurrentLinkedQueue<>();
+            while ((record = csvReader.readNext()) != null) {
+                try {
+                    System.out.println("User[" + String.join(", ", record) + "]");
+                    src_data_queue.offer(Double.parseDouble(record[5]));
+                }catch (NumberFormatException e) {
+                    System.out.println("Skipping column header");
+                }
+
+            }
+
+        } catch (IOException | CsvValidationException ex) {
+            ex.printStackTrace();
+        }
+        return src_data_queue;
     }
 }
