@@ -49,7 +49,10 @@ public abstract class StateManager {
     protected TOMLayer tomLayer;
     protected ServerViewController SVController;
     protected DeliveryThread dt;
-    protected ExecutionManager execManager;
+
+    // make this public viewable
+//    protected ExecutionManager execManager;
+    public ExecutionManager execManager;
 
 
     protected HashMap<Integer, ApplicationState> senderStates = null;

@@ -34,7 +34,9 @@ public class Configuration {
 
 	private Logger logger;
 
-	protected int processId;
+	// Make this viewable
+//	protected int processId;
+	public int processId;
 	protected boolean channelsBlocking;
 	protected int autoConnectLimit;
 	protected Map<String, String> configs;

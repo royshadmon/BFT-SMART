@@ -45,7 +45,9 @@ public abstract class DefaultSingleRecoverable implements Recoverable, SingleExe
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     
     protected ReplicaContext replicaContext;
-    private TOMConfiguration config;
+    // Make this viewable
+//    private TOMConfiguration config;
+    protected TOMConfiguration config;
     private ServerViewController controller;
     private int checkpointPeriod;
 
@@ -59,7 +61,9 @@ public abstract class DefaultSingleRecoverable implements Recoverable, SingleExe
     private List<byte[]> commands = new ArrayList<>();
     private List<MessageContext> msgContexts = new ArrayList<>();
     
-    private StateManager stateManager;
+//    private StateManager stateManager;
+    // Make state manager viewable
+    protected StateManager stateManager;
     
     public DefaultSingleRecoverable() {
 

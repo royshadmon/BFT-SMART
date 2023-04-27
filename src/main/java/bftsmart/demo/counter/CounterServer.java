@@ -44,6 +44,12 @@ public final class CounterServer extends DefaultSingleRecoverable  {
     public CounterServer(int id, String configFile) {
         System.out.println("USING CONFIG FILE " + configFile);
     	new ServiceReplica(id, this, this, configFile);
+//        int currentLeaderId = this;//.stateManager.execManager.getCurrentLeader();
+        System.out.println("REPLICA ID " + id);
+        int currentLeaderId = this.stateManager.execManager.getCurrentLeader();
+        System.out.println("CURRENT LEADER IS " + currentLeaderId);
+        System.out.println("REPLICA ID IS " + this.config.processId);
+
     }
             
     @Override
