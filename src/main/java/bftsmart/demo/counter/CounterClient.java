@@ -18,12 +18,17 @@ package bftsmart.demo.counter;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Properties;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import bftsmart.tom.ServiceProxy;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
 /**
  * Example client that updates a BFT replicated service (a counter).
@@ -43,6 +48,48 @@ public class CounterClient implements Runnable {
             System.out.println("       default <number of operations> equals 1000");
             System.exit(-1);
         }
+
+//        Properties config = new Properties();
+//        try {
+//            FileInputStream inputStream = new FileInputStream("/Users/royshadmon/BFT-SMART/src/main/java/bftsmart/demo/counter/layerConfigs/layer1.properties");
+//            config.load(inputStream);
+//            inputStream.close();
+//            System.out.println("PROPERTY " + config.getProperty("replica_name"));
+//            String functionName = config.getProperty("function");
+//            String[] parts = functionName.split("\\.");
+//            String className = String.join(".", Arrays.copyOfRange(parts, 0, parts.length - 1));
+//            String methodName = parts[parts.length - 1];
+//            Class<?> cls = Class.forName(className);
+//
+//            String argsString = config.getProperty("function.args");
+//            String[] func_args = argsString.split(",");
+//            Class<?>[] argTypes = new Class<?>[func_args.length];
+//            Object[] argValues = new Object[func_args.length];
+//
+//            for (int i = 0; i < func_args.length; i++) {
+//                String[] arg_parts = func_args[i].split(":");
+//                argTypes[i] = getClass(arg_parts[0]);
+//                try {
+//                    argValues[i] = arg_parts[1];
+//                } catch (Exception e) {
+//                    argValues[i] = null;
+//                }
+//
+//
+//            }
+//
+//
+//            Method method = cls.getDeclaredMethod(methodName, argTypes);
+//            Object obj = cls.newInstance();
+//            method.invoke(obj,2.0);
+////            System.out.println("HALFED RESULT " + result);
+//
+//        } catch (IOException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+//            System.out.println("Failed to load config");
+//        } catch (InstantiationException e) {
+//            throw new RuntimeException(e);
+//        }
+
 
         // Create concurrent linked queue
 
@@ -68,7 +115,7 @@ public class CounterClient implements Runnable {
             for (int i = 0; i < src_data_queue.size(); i++) {
                 System.out.println("INC IS " + inc);
                 ByteArrayOutputStream out = new ByteArrayOutputStream(4);
-                 val = src_data_queue.poll();
+                val = src_data_queue.poll();
                 System.out.println("VAL IS " + val + " Out is " + out.toString());
                 new DataOutputStream(out).writeDouble(val);
 
@@ -81,7 +128,6 @@ public class CounterClient implements Runnable {
                     double newValue = new DataInputStream(new ByteArrayInputStream(reply)).readDouble();
                     System.out.println(", returned value: " + newValue);
                     queue.offer((double) newValue); // offer returns true or false on success, add will throw an exception if it fails
-
 
                 } else {
                     System.out.println(", ERROR! Exiting.");
@@ -158,5 +204,16 @@ public class CounterClient implements Runnable {
             ex.printStackTrace();
         }
         return src_data_queue;
+    }
+
+    private static Class<?> getClass(String className) throws ClassNotFoundException {
+        switch (className) {
+            case "int":
+                return int.class;
+            case "double":
+                return double.class;
+            default:
+                return Class.forName(className);
+        }
     }
 }
