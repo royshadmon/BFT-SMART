@@ -55,7 +55,7 @@ public final class CounterServer extends DefaultSingleRecoverable  {
     @Override
     public byte[] appExecuteUnordered(byte[] command, MessageContext msgCtx) {
         iterations++;
-        System.out.println("(" + iterations + ") Counter current value: " + counter);
+        System.out.println("INVOKE UNORDERED -- (" + iterations + ") Counter current value: " + counter);
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream(4);
             new DataOutputStream(out).writeDouble(counter);

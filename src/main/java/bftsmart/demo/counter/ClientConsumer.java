@@ -36,7 +36,7 @@ public class ClientConsumer implements Runnable {
                 throw new RuntimeException(e);
             }
 
-            byte[] reply = readCounterProxy.invokeOrdered(out.toByteArray());
+            byte[] reply = readCounterProxy.invokeUnordered(out.toByteArray());
 
 
 //            byte[] reply = (inc == 0) ?
