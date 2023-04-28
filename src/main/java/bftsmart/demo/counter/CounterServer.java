@@ -41,10 +41,10 @@ public final class CounterServer extends DefaultSingleRecoverable  {
     private double counter = 0;
     private int iterations = 0;
     
-    public CounterServer(int id, String configFile) {
-        System.out.println("USING CONFIG FILE " + configFile);
-    	new ServiceReplica(id, this, this, configFile);
-//        int currentLeaderId = this;//.stateManager.execManager.getCurrentLeader();
+    public CounterServer(int id, String replicaConfigFile, String clientConfigFile) {
+        System.out.println("USING CONFIG FILE " + replicaConfigFile);
+    	new ServiceReplica(id, this, this, replicaConfigFile, clientConfigFile);
+
         System.out.println("REPLICA ID " + id);
         int currentLeaderId = this.stateManager.execManager.getCurrentLeader();
         System.out.println("CURRENT LEADER IS " + currentLeaderId);
@@ -53,7 +53,7 @@ public final class CounterServer extends DefaultSingleRecoverable  {
     }
             
     @Override
-    public byte[] appExecuteUnordered(byte[] command, MessageContext msgCtx) {         
+    public byte[] appExecuteUnordered(byte[] command, MessageContext msgCtx) {
         iterations++;
         System.out.println("(" + iterations + ") Counter current value: " + counter);
         try {
@@ -77,8 +77,12 @@ public final class CounterServer extends DefaultSingleRecoverable  {
             System.out.println("(" + iterations + ") Counter was processed. Current value = " + counter);
             
             ByteArrayOutputStream out = new ByteArrayOutputStream(4);
+//            ReturnObject r = new ReturnObject(iterations, counter);
+//            ObjectOutputStream objOut = new ObjectOutputStream(out);
+//            objOut.writeObject(r);
             new DataOutputStream(out).writeDouble(counter);
             return out.toByteArray();
+
         } catch (IOException ex) {
             System.err.println("Invalid request received!");
             return new byte[0];
@@ -90,9 +94,10 @@ public final class CounterServer extends DefaultSingleRecoverable  {
             System.out.println("Use: java CounterServer <processId>");
             System.exit(-1);
         }
-        String configFile = args[1];
+        String replicaConfigFile = args[1];
+        String clientConfigFile = args[2];
 //        configFile = "";
-        new CounterServer(Integer.parseInt(args[0]), configFile);
+        new CounterServer(Integer.parseInt(args[0]), replicaConfigFile, clientConfigFile);
     }
 
     
@@ -133,3 +138,4 @@ public final class CounterServer extends DefaultSingleRecoverable  {
         return v/2;
     }
 }
+

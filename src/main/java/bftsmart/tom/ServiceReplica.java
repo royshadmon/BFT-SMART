@@ -60,7 +60,8 @@ import org.slf4j.LoggerFactory;
  * need to organize the replies in batches.
  */
 public class ServiceReplica {
-    
+    // PC add clientConfigFile to this object
+    public String clientConfigFile;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     // replica ID
@@ -78,6 +79,17 @@ public class ServiceReplica {
     private ReplicaContext replicaCtx = null;
     private Replier replier = null;
     private RequestVerifier verifier = null;
+
+    /**
+     * Proximal Consensus Comparison Constructor
+     *
+     * @param id Replica ID
+     * @param executor Executor
+     * @param recoverer Recoverer
+     */
+    public ServiceReplica(int id, Executable executor, Recoverable recoverer, String replicaConfigFile, String clientConfigFile) {
+        this(id, replicaConfigFile, executor, recoverer, null, new DefaultReplier(), null, clientConfigFile);
+    }
 
     /**
      * Constructor
@@ -142,6 +154,20 @@ public class ServiceReplica {
         this.replier.setReplicaContext(replicaCtx);
     }
 
+    // Proximal Consensus Change
+    public ServiceReplica(int id, String configHome, Executable executor, Recoverable recoverer, RequestVerifier verifier, Replier replier, KeyLoader loader, String clientConfigFile) {
+        this.id = id;
+        this.clientConfigFile = clientConfigFile;
+        this.SVController = new ServerViewController(id, configHome, loader);
+        this.executor = executor;
+        this.recoverer = recoverer;
+        this.replier = (replier != null ? replier : new DefaultReplier());
+        this.verifier = verifier;
+        this.init();
+        this.recoverer.setReplicaContext(replicaCtx);
+        this.replier.setReplicaContext(replicaCtx);
+    }
+
     // this method initializes the object
     private void init() {
         try {
@@ -156,7 +182,7 @@ public class ServiceReplica {
             initTOMLayer(); // initiaze the TOM layer
         } else {
             logger.info("Not in current view: " + this.SVController.getCurrentView());
-            
+
             //Not in the initial view, just waiting for the view where the join has been executed
             logger.info("Waiting for the TTP: " + this.SVController.getCurrentView());
             waitTTPJoinMsgLock.lock();
@@ -165,7 +191,7 @@ public class ServiceReplica {
             } finally {
                 waitTTPJoinMsgLock.unlock();
             }
-            
+
         }
         initReplica();
     }
@@ -460,7 +486,7 @@ public class ServiceReplica {
 
         acceptor.setExecutionManager(executionManager);
 
-        tomLayer = new TOMLayer(executionManager, this, recoverer, acceptor, cs, SVController, verifier);
+        tomLayer = new TOMLayer(executionManager, this, recoverer, acceptor, cs, SVController, verifier, this.clientConfigFile);
 
         executionManager.setTOMLayer(tomLayer);
 

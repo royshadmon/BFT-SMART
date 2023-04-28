@@ -24,6 +24,7 @@ import bftsmart.consensus.Consensus;
 import bftsmart.consensus.Decision;
 import bftsmart.consensus.Epoch;
 import bftsmart.consensus.roles.Acceptor;
+import bftsmart.demo.counter.CounterClient;
 import bftsmart.reconfiguration.ServerViewController;
 import bftsmart.statemanagement.StateManager;
 import bftsmart.tom.ServiceReplica;
@@ -39,6 +40,7 @@ import bftsmart.tom.util.TOMUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.security.*;
 import java.util.HashMap;
@@ -58,6 +60,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public final class TOMLayer extends Thread implements RequestReceiver {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final String clientConfigFile;
 
     private boolean doWork = true;
     //other components used by the TOMLayer (they are never changed)
@@ -111,6 +114,9 @@ public final class TOMLayer extends Thread implements RequestReceiver {
 
     private final Synchronizer syncher;
 
+
+    protected Thread t;
+
     /**
      * Creates a new instance of TOMulticastLayer
      *
@@ -128,10 +134,12 @@ public final class TOMLayer extends Thread implements RequestReceiver {
                     Acceptor a,
                     ServerCommunicationSystem cs,
                     ServerViewController controller,
-                    RequestVerifier verifier) {
+                    RequestVerifier verifier,
+                    String clientConfigFile // Proximal Consensus add client config file info
+    ) {
 
         super("TOM Layer");
-
+        this.clientConfigFile = clientConfigFile; // PC add
         this.execManager = manager;
         this.acceptor = a;
         this.communication = cs;
@@ -406,7 +414,6 @@ public final class TOMLayer extends Thread implements RequestReceiver {
     public void run() {
         logger.debug("Running."); // TODO: can't this be outside of the loop?
         while (doWork) {
-
             // blocks until this replica learns to be the leader for the current epoch of the current consensus
             leaderLock.lock();
             logger.debug("Next leader for CID=" + (getLastExec() + 1) + ": " + execManager.getCurrentLeader());
@@ -418,6 +425,11 @@ public final class TOMLayer extends Thread implements RequestReceiver {
             }
             //******* EDUARDO END **************//
             leaderLock.unlock();
+
+            // If you were the previous leader and not the new leader, stop your client thread
+            if  (execManager.getCurrentLeader() != this.controller.getStaticConf().getProcessId() &&
+                    t.isAlive())
+                t.interrupt(); // stop the thread
 
             if (!doWork) break;
 
@@ -433,6 +445,21 @@ public final class TOMLayer extends Thread implements RequestReceiver {
             if (!doWork) break;
 
             logger.debug("I'm the leader.");
+
+
+            // Start the background thread to be the client
+//                CounterClient c = new CounterClient();
+//                Thread t = new Thread(c);
+            CounterClient c = null;
+            try {
+                c = new CounterClient("0", clientConfigFile);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            t = new Thread(c);
+            t.start();
 
             // blocks until there are requests to be processed/ordered
             messagesLock.lock();

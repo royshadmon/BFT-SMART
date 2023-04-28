@@ -8,10 +8,12 @@ import java.util.Arrays;
 import java.util.Properties;
 
 public class ProcessLayerConfig {
-    public ProcessLayerConfig() {
+    public static Properties config;
+
+    public ProcessLayerConfig(String config_file_path) {
         Properties config = new Properties();
         try {
-            FileInputStream inputStream = new FileInputStream("/Users/royshadmon/BFT-SMART/src/main/java/bftsmart/demo/counter/layerConfigs/layer1.properties");
+            FileInputStream inputStream = new FileInputStream(config_file_path);
             config.load(inputStream);
             inputStream.close();
             System.out.println("PROPERTY " + config.getProperty("replica_name"));
@@ -38,7 +40,7 @@ public class ProcessLayerConfig {
 
             }
 
-
+            this.config = config;
             Method method = cls.getDeclaredMethod(methodName, argTypes);
             Object obj = cls.newInstance();
             method.invoke(obj,2.0);
@@ -49,6 +51,10 @@ public class ProcessLayerConfig {
         } catch (InstantiationException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static Properties getConfig() {
+        return config;
     }
 
     private static Class<?> getClass(String className) throws ClassNotFoundException {
