@@ -28,10 +28,45 @@ public class ClientProducer implements Runnable {
     }
 
     public void process_response() throws InterruptedException {
+        double val;
+        int iter= 1;
+        ServiceProxy counterProxy_forward = new ServiceProxy(10, this.produceConfig);
+        System.out.println("OUTTPUTTING TO " + this.produceConfig);
         while (true) {
-            Thread.sleep(1000);
+            System.out.println("IN CLIENT PRODUCER SERVICE");
             System.out.println("SIZE OF QUEUE IN CLIENT PRODUCER " + this.consume_queue.size());
+            if (consume_queue.isEmpty()) {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    System.out.println("Thread interrupted");
+                }
+
+            } else {
+                try {
+                    val = consume_queue.poll(); // ensures that we process data in FIFO
+                    System.out.println("OUT VALUE IS " + val);
+                    val += iter;
+
+                    ByteArrayOutputStream out_forward = new ByteArrayOutputStream(4);
+                    new DataOutputStream(out_forward).writeDouble(val);
+                    byte[] reply_forward = (val == 0) ?
+                            counterProxy_forward.invokeUnordered(out_forward.toByteArray()) :
+                            counterProxy_forward.invokeOrdered(out_forward.toByteArray());
+                    System.out.println("FORWARD REPLY " + reply_forward);
+                } catch (IOException | NumberFormatException e) {
+                    System.out.println("IN EXCEPTION");
+                    counterProxy_forward.close();
+                }
+
+            }
         }
+
+
+
+//            Thread.sleep(1000);
+//            System.out.println("SIZE OF QUEUE IN CLIENT PRODUCER " + this.consume_queue.size());
+
 //        if (config_output == null) {
 //            new ProcessLayerConfig(config_output);
 //        }

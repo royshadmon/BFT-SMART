@@ -60,7 +60,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public final class TOMLayer extends Thread implements RequestReceiver {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final String clientConfigFile;
+    final String clientConfigFile;
 
     private boolean doWork = true;
     //other components used by the TOMLayer (they are never changed)
@@ -115,7 +115,7 @@ public final class TOMLayer extends Thread implements RequestReceiver {
     private final Synchronizer syncher;
 
 
-    protected Thread t;
+    public Thread t;
 
     /**
      * Creates a new instance of TOMulticastLayer
@@ -428,8 +428,8 @@ public final class TOMLayer extends Thread implements RequestReceiver {
 
             // If you were the previous leader and not the new leader, stop your client thread
             if  (execManager.getCurrentLeader() != this.controller.getStaticConf().getProcessId() &&
-                    t.isAlive())
-                t.interrupt(); // stop the thread
+                    this.t.isAlive())
+                this.t.interrupt(); // stop the thread
 
             if (!doWork) break;
 
@@ -448,18 +448,29 @@ public final class TOMLayer extends Thread implements RequestReceiver {
 
 
             // Start the background thread to be the client
-//                CounterClient c = new CounterClient();
-//                Thread t = new Thread(c);
-            CounterClient c = null;
-            try {
-                c = new CounterClient("0", clientConfigFile);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            t = new Thread(c);
-            t.start();
+
+//            CounterClient c = null;
+//            try {
+//                c = new CounterClient("0", clientConfigFile);
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+//            t = new Thread(c);
+//            t.start();
+
+
+//            CounterClient c = null;
+//            try {
+//                c = new CounterClient("0", this.clientConfigFile);
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+//            this.t = new Thread(c);
+//            this.t.start();
 
             // blocks until there are requests to be processed/ordered
             messagesLock.lock();

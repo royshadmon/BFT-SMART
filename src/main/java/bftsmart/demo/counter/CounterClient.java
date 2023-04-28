@@ -38,60 +38,67 @@ import java.util.Arrays;
  * @author alysson
  */
 public class CounterClient implements Runnable {
-    public static Queue<Double> consume_queue = new ConcurrentLinkedQueue<>();
+    public static Queue<Double> consume_queue;
 
     protected String consume_config_output;
     protected String produce_config_output;
 
     public static int client_id;
+    protected Properties conf;
+    protected String config_input;
+    protected String produce_to;
 
 
     public CounterClient(String consume_config, String produce_config) throws IOException, InterruptedException {
         System.out.println("IN COUNTER CLIENT CONSTRUCTOR");
-
+        this.consume_queue = new ConcurrentLinkedQueue<>();
         this.consume_config_output = consume_config;
         this.produce_config_output = produce_config;
 
         ProcessLayerConfig consume_info = new ProcessLayerConfig(this.produce_config_output);
-        Properties conf = consume_info.getConfig();
+        this.conf = consume_info.getConfig();
 
         // get filepath of replica set to consume from
-        String config_input = conf.getProperty("consume_from");
+        this.config_input = conf.getProperty("consume_from");
         client_id = Integer.parseInt(conf.getProperty("client_id"));
-        String produce_to = conf.getProperty("produce_to");
+        this.produce_to = conf.getProperty("produce_to");
 
 
         // Start background thread to produce data
-        ClientProducer c = new ClientProducer(conf, produce_to, consume_queue);
-        Thread t = new Thread(c);
-        t.start(); // Starts the run() function
+//        ClientProducer c = new ClientProducer(conf, produce_to, consume_queue);
+//        Thread t = new Thread(c);
+//        t.start(); // Starts the run() function
+//
+//        ClientConsumer cc = new ClientConsumer(conf, config_input, consume_queue);
+//        Thread t2 = new Thread(cc);
+//        t2.start();
 
-
-        ServiceProxy readCounterProxy = new ServiceProxy(client_id, config_input);
-        ByteArrayOutputStream out = new ByteArrayOutputStream(4);
-        int inc = 0;
-        System.out.println("SENDING REQUEST");
-        new DataOutputStream(out).writeDouble(0); // sending 0 is a read request
-        while (true) {
-            Thread.sleep(3000);
-            byte[] reply = (inc == 0) ?
-                    readCounterProxy.invokeUnordered(out.toByteArray()) :
-                    readCounterProxy.invokeOrdered(out.toByteArray()); //magic happens here
-
-            if (reply != null) {
-                System.out.println("RECEIVED REPLY YAY");
-                double newValue = new DataInputStream(new ByteArrayInputStream(reply)).readDouble();
-                System.out.println(", returned value: " + newValue);
-                // Check if returned value is a new value and add new value to queue
-                consume_queue.offer((double) newValue); // offer returns true or false on success, add will throw an exception if it fails
+//        ServiceProxy readCounterProxy = new ServiceProxy(client_id, config_input);
+//        ByteArrayOutputStream out = new ByteArrayOutputStream(4);
+//        int inc = 0;
+//        System.out.println("SENDING REQUEST");
+//        new DataOutputStream(out).writeDouble(0); // sending 0 is a read request
+//        while (true && t.isAlive()) {
+//            Thread.sleep(2000);
+//            byte[] reply = (inc == 0) ?
+//                    readCounterProxy.invokeUnordered(out.toByteArray()) :
+//                    readCounterProxy.invokeOrdered(out.toByteArray()); //magic happens here
+//
+//            if (reply != null) {
+//                System.out.println("RECEIVED REPLY YAY");
+//                double newValue = new DataInputStream(new ByteArrayInputStream(reply)).readDouble();
+//                System.out.println(", returned value: " + newValue);
+//                // Check if returned value is a new value and add new value to queue
+//                consume_queue.offer((double) newValue); // offer returns true or false on success, add will throw an exception if it fails
 
 //        if (reply != null) {
 //            double newValue = new DataInputStream(new ByteArrayInputStream(reply)).readDouble();
 //            System.out.println(", returned value: " + newValue);
 //            queue.offer((double) newValue); // offer returns true or false on success, add will throw an exception if it fails
 
-            }
-        }
+//            }
+//        }
+//        t.interrupt();
 
     }
 
@@ -280,8 +287,14 @@ public class CounterClient implements Runnable {
 //    @Override
     public void run() {
         System.out.println("IN COUNTER CLIENT RUN2222");
-//        process_response(client_id, config_output);
-//        process_response(client_id, config_output);
+        // Start background thread to produce data
+        ClientProducer c = new ClientProducer(this.conf, this.produce_to, this.consume_queue);
+        Thread t = new Thread(c);
+        t.start(); // Starts the run() function
+
+        ClientConsumer cc = new ClientConsumer(this.conf, this.config_input, this.consume_queue);
+        Thread t2 = new Thread(cc);
+        t2.start();
     }
 }
 

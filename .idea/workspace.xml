@@ -5,17 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0538279-4b1a-4a8f-81e7-c2a5815cf12b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/ClientProducer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/ReturnObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/ClientConsumer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/BFT-SMaRt.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/BFT-SMaRt.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/ClientProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/ClientProducer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/helperFunctions/ProcessLayerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/helperFunctions/ProcessLayerConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/layerConfigs/layer2.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/layerConfigs/layer2.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/tom/ServiceReplica.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/tom/ServiceReplica.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/tom/core/DeliveryThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/tom/core/DeliveryThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/tom/core/TOMLayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/tom/core/TOMLayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/startCounterServer.sh" beforeDir="false" afterPath="$PROJECT_DIR$/startCounterServer.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +154,7 @@
       <workItem from="1682432319789" duration="7359000" />
       <workItem from="1682519711986" duration="9097000" />
       <workItem from="1682631021464" duration="5919000" />
-      <workItem from="1682689510387" duration="18781000" />
+      <workItem from="1682689510387" duration="30155000" />
     </task>
     <servers />
   </component>
@@ -212,23 +209,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java</url>
-          <line>237</line>
+          <line>244</line>
           <option name="timeStamp" value="39" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java</url>
-          <line>239</line>
+          <line>246</line>
           <option name="timeStamp" value="40" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java</url>
-          <line>202</line>
+          <line>209</line>
           <option name="timeStamp" value="41" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/tom/core/TOMLayer.java</url>
-          <line>461</line>
-          <option name="timeStamp" value="42" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bftsmart/tom/ServiceReplica.java</url>
@@ -242,18 +234,63 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java</url>
-          <line>69</line>
+          <line>75</line>
           <option name="timeStamp" value="49" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java</url>
-          <line>58</line>
+          <line>61</line>
           <option name="timeStamp" value="50" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java</url>
-          <line>55</line>
+          <line>58</line>
           <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/ClientProducer.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/ClientProducer.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java</url>
+          <line>89</line>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterClient.java</url>
+          <line>88</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/ClientProducer.java</url>
+          <line>46</line>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/tom/core/DeliveryThread.java</url>
+          <line>264</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/tom/core/DeliveryThread.java</url>
+          <line>240</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/tom/core/TOMLayer.java</url>
+          <line>463</line>
+          <option name="timeStamp" value="62" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bftsmart/tom/core/TOMLayer.java</url>
+          <line>475</line>
+          <option name="timeStamp" value="63" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

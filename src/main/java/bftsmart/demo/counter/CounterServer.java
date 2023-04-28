@@ -71,12 +71,20 @@ public final class CounterServer extends DefaultSingleRecoverable  {
         iterations++;
         try {
             double received_data = new DataInputStream(new ByteArrayInputStream(command)).readDouble();
-//            counter += increment;
-            counter = computation(received_data);
+            System.out.println("RECEIVED  " + received_data);
+            ByteArrayOutputStream out = new ByteArrayOutputStream(4);
+            if (received_data < 0) {
+                System.out.println("CURRENT COUNTER STATE " + counter);
+                new DataOutputStream(out).writeDouble(counter);
+                return out.toByteArray();
+            }
+            counter = received_data + 1;
+            System.out.println("SENDING  " + counter);
+//            counter = computation(received_data);
             
             System.out.println("(" + iterations + ") Counter was processed. Current value = " + counter);
             
-            ByteArrayOutputStream out = new ByteArrayOutputStream(4);
+//            ByteArrayOutputStream out = new ByteArrayOutputStream(4);
 //            ReturnObject r = new ReturnObject(iterations, counter);
 //            ObjectOutputStream objOut = new ObjectOutputStream(out);
 //            objOut.writeObject(r);

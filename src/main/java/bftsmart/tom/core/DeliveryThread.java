@@ -16,6 +16,7 @@ limitations under the License.
 package bftsmart.tom.core;
 
 import bftsmart.consensus.Decision;
+import bftsmart.demo.counter.CounterClient;
 import bftsmart.reconfiguration.ServerViewController;
 import bftsmart.statemanagement.ApplicationState;
 import bftsmart.tom.MessageContext;
@@ -28,6 +29,7 @@ import bftsmart.tom.util.BatchReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.Condition;
@@ -243,6 +245,22 @@ public final class DeliveryThread extends Thread {
 					init = false;
 				}
 			}
+			// Start the background thread to be the client
+			// PC Start Client consumer
+			// Current view id this.tomLayer.controller.getCurrentViewId()
+			if (this.tomLayer.getStateManager().execManager.getCurrentLeader() == this.tomLayer.controller.getStaticConf().processId) {
+				CounterClient c = null;
+				try {
+					c = new CounterClient("0", this.tomLayer.clientConfigFile);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+				this.tomLayer.t = new Thread(c);
+				this.tomLayer.t.start();
+			}
+
 
 			try {
 				ArrayList<Decision> decisions = new ArrayList<>();
