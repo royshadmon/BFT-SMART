@@ -259,6 +259,7 @@ public final class DeliveryThread extends Thread {
 				}
 				this.tomLayer.t = new Thread(c);
 				this.tomLayer.t.start();
+				System.out.println("STARTED CLIENT THREAD IN DELIVERYTHREAD");
 			}
 
 
