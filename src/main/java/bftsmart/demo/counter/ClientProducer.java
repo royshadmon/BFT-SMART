@@ -10,11 +10,15 @@ import java.util.Properties;
 import java.util.Queue;
 
 public class ClientProducer implements Runnable {
-    protected String produceConfig;
+    private final String produce_to;
+//    protected String produceConfig;
     protected Queue<Double> consume_queue;
-    public ClientProducer(Properties conf, String produceToConfig, Queue<Double> consume_q) {
-        this.produceConfig = produceToConfig;
+//    public ClientProducer(Properties conf, String produceToConfig, Queue<Double> consume_q) {
+    public ClientProducer(Properties client_config, Queue<Double> consume_q) {
+        this.produce_to = client_config.getProperty("produce_to");
         this.consume_queue = consume_q;
+
+//        this.produceConfig = produceToConfig;
     }
 
     @Override
@@ -30,8 +34,8 @@ public class ClientProducer implements Runnable {
     public void process_response() throws InterruptedException {
         double val;
         int iter= 1;
-        ServiceProxy counterProxy_forward = new ServiceProxy(10, this.produceConfig);
-        System.out.println("OUTTPUTTING TO " + this.produceConfig);
+        ServiceProxy counterProxy_forward = new ServiceProxy(10, this.produce_to);
+        System.out.println("OUTPUTTING TO " + this.produce_to);
         while (true) {
             System.out.println("IN CLIENT PRODUCER SERVICE");
             System.out.println("SIZE OF QUEUE IN CLIENT PRODUCER " + this.consume_queue.size());

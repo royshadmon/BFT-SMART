@@ -39,66 +39,49 @@ import java.util.Arrays;
  */
 public class CounterClient implements Runnable {
     public static Queue<Double> consume_queue;
+    private final String config_file_path;
+    private final String consume_from;
+    private final boolean isSource_data;
+    private int consume_from_column_id;
+    private final Properties client_config;
 
     protected String consume_config_output;
     protected String produce_config_output;
 
-    public static int client_id;
+    private final int client_id;
     protected Properties conf;
     protected String config_input;
     protected String produce_to;
 
 
-    public CounterClient(String consume_config, String produce_config) throws IOException, InterruptedException {
+//    public CounterClient(String consume_config, String produce_config) throws IOException, InterruptedException {
+    public CounterClient(String config_file_path) throws IOException, InterruptedException {
         System.out.println("IN COUNTER CLIENT CONSTRUCTOR");
-        this.consume_queue = new ConcurrentLinkedQueue<>();
-        this.consume_config_output = consume_config;
-        this.produce_config_output = produce_config;
+        this.config_file_path = config_file_path;
+        this.consume_queue = new ConcurrentLinkedQueue<>(); // set up data processing queue
+        this.client_config = new ProcessLayerConfig(config_file_path).getConfig(); // process config file
 
-        ProcessLayerConfig consume_info = new ProcessLayerConfig(this.produce_config_output);
-        this.conf = consume_info.getConfig();
+        // Get parameters in Config file
+        this.client_id = Integer.parseInt(client_config.getProperty("client_id"));
+        this.consume_from = client_config.getProperty("consume_from"); // where to consume_from
+        this.isSource_data = Boolean.getBoolean(client_config.getProperty("consume_from.source_data")); // if true, signifies that the consume_from field is a CSV file
+        if (this.isSource_data)
+            this.consume_from_column_id = Integer.parseInt(conf.getProperty("consume_from.column_id"));
+
+        this.produce_to=client_config.getProperty("produce_to");
+
+
+//        this.consume_conf = consume_config;
+
+//        this.produce_config_output = produce_config;
+
+//        ProcessLayerConfig consume_info = new ProcessLayerConfig(this.produce_config_output);
+//        this.conf = consume_info.getConfig();
 
         // get filepath of replica set to consume from
-        this.config_input = conf.getProperty("consume_from");
-        client_id = Integer.parseInt(conf.getProperty("client_id"));
-        this.produce_to = conf.getProperty("produce_to");
-
-
-        // Start background thread to produce data
-//        ClientProducer c = new ClientProducer(conf, produce_to, consume_queue);
-//        Thread t = new Thread(c);
-//        t.start(); // Starts the run() function
-//
-//        ClientConsumer cc = new ClientConsumer(conf, config_input, consume_queue);
-//        Thread t2 = new Thread(cc);
-//        t2.start();
-
-//        ServiceProxy readCounterProxy = new ServiceProxy(client_id, config_input);
-//        ByteArrayOutputStream out = new ByteArrayOutputStream(4);
-//        int inc = 0;
-//        System.out.println("SENDING REQUEST");
-//        new DataOutputStream(out).writeDouble(0); // sending 0 is a read request
-//        while (true && t.isAlive()) {
-//            Thread.sleep(2000);
-//            byte[] reply = (inc == 0) ?
-//                    readCounterProxy.invokeUnordered(out.toByteArray()) :
-//                    readCounterProxy.invokeOrdered(out.toByteArray()); //magic happens here
-//
-//            if (reply != null) {
-//                System.out.println("RECEIVED REPLY YAY");
-//                double newValue = new DataInputStream(new ByteArrayInputStream(reply)).readDouble();
-//                System.out.println(", returned value: " + newValue);
-//                // Check if returned value is a new value and add new value to queue
-//                consume_queue.offer((double) newValue); // offer returns true or false on success, add will throw an exception if it fails
-
-//        if (reply != null) {
-//            double newValue = new DataInputStream(new ByteArrayInputStream(reply)).readDouble();
-//            System.out.println(", returned value: " + newValue);
-//            queue.offer((double) newValue); // offer returns true or false on success, add will throw an exception if it fails
-
-//            }
-//        }
-//        t.interrupt();
+//        this.config_input = conf.getProperty("consume_from");
+//        client_id = Integer.parseInt(conf.getProperty("client_id"));
+//        this.produce_to = conf.getProperty("produce_to");
 
     }
 
@@ -288,11 +271,13 @@ public class CounterClient implements Runnable {
     public void run() {
         System.out.println("IN COUNTER CLIENT RUN2222");
         // Start background thread to produce data
-        ClientProducer c = new ClientProducer(this.conf, this.produce_to, this.consume_queue);
+//        ClientProducer c = new ClientProducer(this.conf, this.produce_to, this.consume_queue);
+        ClientProducer c = new ClientProducer(this.client_config, this.consume_queue);
         Thread t = new Thread(c);
         t.start(); // Starts the run() function
 
-        ClientConsumer cc = new ClientConsumer(this.conf, this.config_input, this.consume_queue);
+//        ClientConsumer cc = new ClientConsumer(this.conf, this.config_input, this.consume_queue);
+        ClientConsumer cc = new ClientConsumer(this.client_config, this.consume_queue);
         Thread t2 = new Thread(cc);
         t2.start();
     }

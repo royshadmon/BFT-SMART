@@ -251,7 +251,7 @@ public final class DeliveryThread extends Thread {
 			if (this.tomLayer.getStateManager().execManager.getCurrentLeader() == this.tomLayer.controller.getStaticConf().processId) {
 				CounterClient c = null;
 				try {
-					c = new CounterClient("0", this.tomLayer.clientConfigFile);
+					c = new CounterClient(this.tomLayer.clientConfigFile);
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 				} catch (InterruptedException e) {

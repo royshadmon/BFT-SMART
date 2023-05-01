@@ -15,6 +15,7 @@ limitations under the License.
 */
 package bftsmart.demo.counter;
 
+import bftsmart.demo.counter.helperFunctions.ProcessLayerConfig;
 import bftsmart.tom.MessageContext;
 import bftsmart.tom.ServiceReplica;
 import bftsmart.tom.server.defaultservices.DefaultSingleRecoverable;
@@ -27,6 +28,7 @@ import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.util.Properties;
 
 /**
  * Example replica that implements a BFT replicated service (a counter).
@@ -37,15 +39,23 @@ import java.io.ObjectOutputStream;
  */
 
 public final class CounterServer extends DefaultSingleRecoverable  {
-    
+
+    private final String replica_set_config;
+    private final String config_abs_path;
+    private final int server_id;
     private double counter = 0;
     private int iterations = 0;
     
-    public CounterServer(int id, String replicaConfigFile, String clientConfigFile) {
-        System.out.println("USING CONFIG FILE " + replicaConfigFile);
-    	new ServiceReplica(id, this, this, replicaConfigFile, clientConfigFile);
+//    public CounterServer(int id, String replicaConfigFile, String clientConfigFile) {
+    public CounterServer(int server_id, Properties clientConfigFile) {
+        this.server_id = server_id;
+        this.replica_set_config = clientConfigFile.getProperty("produce_to");
+        this.config_abs_path = clientConfigFile.getProperty("config_abs_path");
 
-        System.out.println("REPLICA ID " + id);
+        System.out.println("USING CONFIG FILE " + this.replica_set_config);
+    	new ServiceReplica(server_id, this, this, replica_set_config, this.config_abs_path);
+
+        System.out.println("REPLICA ID " + server_id);
         int currentLeaderId = this.stateManager.execManager.getCurrentLeader();
         System.out.println("CURRENT LEADER IS " + currentLeaderId);
         System.out.println("REPLICA ID IS " + this.config.processId);
@@ -98,14 +108,15 @@ public final class CounterServer extends DefaultSingleRecoverable  {
     }
 
     public static void main(String[] args){
-        if(args.length < 1) {
-            System.out.println("Use: java CounterServer <processId>");
-            System.exit(-1);
-        }
-        String replicaConfigFile = args[1];
-        String clientConfigFile = args[2];
-//        configFile = "";
-        new CounterServer(Integer.parseInt(args[0]), replicaConfigFile, clientConfigFile);
+//        if(args.length < 1) {
+//            System.out.println("Use: java CounterServer <processId>");
+//            System.exit(-1);
+//        }
+        int server_id = Integer.parseInt(args[0]);
+        String config_file_path = args[1];
+        Properties client_config = new ProcessLayerConfig(config_file_path).getConfig(); // process config file
+
+        new CounterServer(server_id, client_config);
     }
 
     
