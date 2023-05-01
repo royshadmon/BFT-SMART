@@ -49,7 +49,7 @@ public class CounterClient implements Runnable {
     protected String produce_config_output;
 
     private final int client_id;
-    protected Properties conf;
+
     protected String config_input;
     protected String produce_to;
 
@@ -66,7 +66,7 @@ public class CounterClient implements Runnable {
         this.consume_from = client_config.getProperty("consume_from"); // where to consume_from
         this.isSource_data = Boolean.getBoolean(client_config.getProperty("consume_from.source_data")); // if true, signifies that the consume_from field is a CSV file
         if (this.isSource_data)
-            this.consume_from_column_id = Integer.parseInt(conf.getProperty("consume_from.column_id"));
+            this.consume_from_column_id = Integer.parseInt(this.client_config.getProperty("consume_from.column_id"));
 
         this.produce_to=client_config.getProperty("produce_to");
 
