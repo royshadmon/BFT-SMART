@@ -50,19 +50,12 @@ public class ClientConsumer implements Runnable {
         double newValue;
         long sleep_time = this.consume_from_interval*1000;
         ServiceProxy readCounterProxy = new ServiceProxy(this.client_id, this.consume_from);
-//        ByteArrayOutputStream out = new ByteArrayOutputStream(4);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ReturnObject ro = new ReturnObject(-1, -1);
         ObjectOutputStream objOutputStream = new ObjectOutputStream(out);
         objOutputStream.writeObject(ro);
         objOutputStream.flush(); // ensures all data is written to ByteArrayOutputStream
-//        int inc = -1;
-//        System.out.println("SENDING REQUEST");
-//        try {
-//            new DataOutputStream(out).writeDouble(inc); // sending 0 is a read request
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+
 
         while (true) {
 
@@ -107,12 +100,7 @@ public class ClientConsumer implements Runnable {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-//            this.src_data_queue = ReadFromCSV.read_csv(this.consume_from, this.consume_from_column_id);
-//            while (true) {
-//                Thread.sleep(sleep_time);
-//                newValue = src_data_queue.poll(); // get data from source data
-//                this.consume_queue.offer(newValue); // put data in consumer_queue
-//            }
+
         }
         // Consume inputs from a replica set
         else {
@@ -123,44 +111,6 @@ public class ClientConsumer implements Runnable {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-//            ServiceProxy readCounterProxy = new ServiceProxy(this.client_id, this.consume_from);
-//            ByteArrayOutputStream out = new ByteArrayOutputStream(4);
-//            int inc = -1;
-//            System.out.println("SENDING REQUEST");
-//            try {
-//                new DataOutputStream(out).writeDouble(inc); // sending 0 is a read request
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//
-//            while (true) {
-//
-//                System.out.println("IN CLIENT CONSUMER SERVICE");
-//                try {
-//                    Thread.sleep(sleep_time);
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//
-//                // get most recent committed value
-//                byte[] reply = readCounterProxy.invokeUnordered(out.toByteArray());
-//
-//
-//                if (reply != null) {
-//                    try {
-//                        newValue = new DataInputStream(new ByteArrayInputStream(reply)).readDouble();
-//                        System.out.println("RECEIVED REPLY CLIENT CONSUMER " + newValue);
-//                        consume_queue.offer(newValue); // offer returns true or false on success, add will throw an exception if it fails
-//                    } catch (IOException e) {
-//                        System.out.println("NO VALUE RECEIVED");
-//                        throw new RuntimeException(e);
-//                    }
-//                  //System.out.println(", returned value: " + newValue);
-//                    // Check if returned value is a new value and add new value to queue
-//
-//
-//                }
-//            }
         }
 
     }

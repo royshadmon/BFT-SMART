@@ -80,14 +80,12 @@ public final class CounterServer extends DefaultSingleRecoverable  {
 //        iterations++;
         System.out.println("INVOKE UNORDERED -- (" + iterations + ") Counter current value: " + counter);
         try {
-//            ByteArrayOutputStream out = new ByteArrayOutputStream(4);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             ReturnObject ro = new ReturnObject(iterations, counter);
             ObjectOutputStream objOutputStream = new ObjectOutputStream(out);
             objOutputStream.writeObject(ro);
             objOutputStream.flush(); // ensures all data is written to ByteArrayOutputStream
 
-//            new DataOutputStream(out).writeDouble(counter);
             return out.toByteArray();
         } catch (IOException ex) {
             System.err.println("Invalid request received!");
@@ -99,32 +97,23 @@ public final class CounterServer extends DefaultSingleRecoverable  {
     public byte[] appExecuteOrdered(byte[] command, MessageContext msgCtx) {
         iterations++;
         try {
-//            double received_data = new DataInputStream(new ByteArrayInputStream(command)).readDouble();
             ReturnObject received_data = (ReturnObject) new ObjectInputStream(new ByteArrayInputStream(command)).readObject();
             logger.debug("RECEIVED ORDERED MESSAGE " +received_data );
             System.out.println("RECEIVED ORDERED MESSAGE " + received_data);
-//            ByteArrayOutputStream out = new ByteArrayOutputStream(4);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             ObjectOutputStream objOutputStream = new ObjectOutputStream(out);
-//            counter = received_data + 1;
             double[] func_inputs = new double[this.num_func_args];
             func_inputs[0] = received_data.value;
             counter = (double) this.replica_computation.invoke(this.obj, func_inputs);
 
             System.out.println("SENDING  " + counter);
-//            counter = computation(received_data);
             
             System.out.println("(" + iterations + ") Counter was processed. Current value = " + counter);
-            
-//            ByteArrayOutputStream out = new ByteArrayOutputStream(4);
-//            ReturnObject r = new ReturnObject(iterations, counter);
-//            ObjectOutputStream objOut = new ObjectOutputStream(out);
-//            objOut.writeObject(r);
+
 
             ReturnObject ro = new ReturnObject(iterations, counter);
             objOutputStream.writeObject(ro);
             objOutputStream.flush(); // ensures all data is written to ByteArrayOutputStream
-//            new DataOutputStream(out).writeDouble(counter);
             return out.toByteArray();
 
         } catch (IOException ex) {
@@ -196,9 +185,5 @@ public final class CounterServer extends DefaultSingleRecoverable  {
         return a[0]/2;
     }
 
-//    public double run_computation(double[] func_params) throws InvocationTargetException, IllegalAccessException {
-//        this.replica_computation.invoke(this.obj, func_params);
-//        return 2;
-//    }
 }
 

@@ -12,14 +12,10 @@ import java.util.Queue;
 
 public class ClientProducer implements Runnable {
     private final String produce_to;
-//    protected String produceConfig;
     protected Queue<Double> consume_queue;
-//    public ClientProducer(Properties conf, String produceToConfig, Queue<Double> consume_q) {
     public ClientProducer(Properties client_config, Queue<Double> consume_q) {
         this.produce_to = client_config.getProperty("produce_to");
         this.consume_queue = consume_q;
-
-//        this.produceConfig = produceToConfig;
     }
 
     @Override
@@ -57,12 +53,6 @@ public class ClientProducer implements Runnable {
                     ObjectOutputStream objOutputStream = new ObjectOutputStream(out_forward);
                     objOutputStream.writeObject(ro);
                     objOutputStream.flush(); // ensures all data is written to ByteArrayOutputStream
-//                    new DataOutputStream(out_forward).writeDouble(val);
-//                    DataOutputStream dataOutputStream = new DataOutputStream(out_forward);
-//                    dataOutputStream.writeObject(ro);
-//                    byte[] reply_forward = (val == 0) ?
-//                            counterProxy_forward.invokeUnordered(out_forward.toByteArray()) :
-//                            counterProxy_forward.invokeOrdered(out_forward.toByteArray());
                     byte[] reply_forward =
                             counterProxy_forward.invokeOrdered(out_forward.toByteArray());
                     System.out.println("FORWARD REPLY " + reply_forward);
@@ -73,42 +63,5 @@ public class ClientProducer implements Runnable {
 
             }
         }
-
-
-
-//            Thread.sleep(1000);
-//            System.out.println("SIZE OF QUEUE IN CLIENT PRODUCER " + this.consume_queue.size());
-
-//        if (config_output == null) {
-//            new ProcessLayerConfig(config_output);
-//        }
-//        System.out.println("HEREHERHERHERHERHERHERHEHREHREHRHERHERHEHREHRE " + config_output);
-//        double val;
-//        ServiceProxy counterProxy_forward = new ServiceProxy(Integer.parseInt(id), config_output);
-//        while (true) {
-//            if (consume_queue.isEmpty()) {
-//                try {
-//                    Thread.sleep(1000);
-//                    continue;
-//                } catch (InterruptedException e) {
-//                    System.out.println("Thread interrupted");
-//                }
-//
-//            } else {
-//                try {
-//                    val = queue.poll(); // ensures that we process data in FIFO
-//                    ByteArrayOutputStream out_forward = new ByteArrayOutputStream(4);
-//                    new DataOutputStream(out_forward).writeDouble(val);
-//                    byte[] reply_forward = (val == 0) ?
-//                            counterProxy_forward.invokeUnordered(out_forward.toByteArray()) :
-//                            counterProxy_forward.invokeOrdered(out_forward.toByteArray());
-//                    System.out.println("FORWARD REPLY " + reply_forward);
-//                } catch (IOException | NumberFormatException e) {
-//                    System.out.println("IN EXCEPTION");
-//                    counterProxy_forward.close();
-//                }
-//
-//            }
-//        }
     }
 }

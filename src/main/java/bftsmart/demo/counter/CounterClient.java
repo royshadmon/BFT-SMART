@@ -45,12 +45,8 @@ public class CounterClient implements Runnable {
     private int consume_from_column_id;
     private final Properties client_config;
 
-    protected String consume_config_output;
-    protected String produce_config_output;
-
     private final int client_id;
-
-    protected String config_input;
+    
     protected String produce_to;
 
 
@@ -70,18 +66,6 @@ public class CounterClient implements Runnable {
 
         this.produce_to=client_config.getProperty("produce_to");
 
-
-//        this.consume_conf = consume_config;
-
-//        this.produce_config_output = produce_config;
-
-//        ProcessLayerConfig consume_info = new ProcessLayerConfig(this.produce_config_output);
-//        this.conf = consume_info.getConfig();
-
-        // get filepath of replica set to consume from
-//        this.config_input = conf.getProperty("consume_from");
-//        client_id = Integer.parseInt(conf.getProperty("client_id"));
-//        this.produce_to = conf.getProperty("produce_to");
 
     }
 
