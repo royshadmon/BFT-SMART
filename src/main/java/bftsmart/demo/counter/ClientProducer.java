@@ -6,6 +6,7 @@ import bftsmart.tom.ServiceProxy;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Properties;
 import java.util.Queue;
 
@@ -51,11 +52,18 @@ public class ClientProducer implements Runnable {
                     val = consume_queue.poll(); // ensures that we process data in FIFO
                     System.out.println("OUT VALUE IS " + val);
                     val += iter;
-
-                    ByteArrayOutputStream out_forward = new ByteArrayOutputStream(4);
-                    new DataOutputStream(out_forward).writeDouble(val);
-                    byte[] reply_forward = (val == 0) ?
-                            counterProxy_forward.invokeUnordered(out_forward.toByteArray()) :
+                    ReturnObject ro = new ReturnObject(1, val);
+                    ByteArrayOutputStream out_forward = new ByteArrayOutputStream();
+                    ObjectOutputStream objOutputStream = new ObjectOutputStream(out_forward);
+                    objOutputStream.writeObject(ro);
+                    objOutputStream.flush(); // ensures all data is written to ByteArrayOutputStream
+//                    new DataOutputStream(out_forward).writeDouble(val);
+//                    DataOutputStream dataOutputStream = new DataOutputStream(out_forward);
+//                    dataOutputStream.writeObject(ro);
+//                    byte[] reply_forward = (val == 0) ?
+//                            counterProxy_forward.invokeUnordered(out_forward.toByteArray()) :
+//                            counterProxy_forward.invokeOrdered(out_forward.toByteArray());
+                    byte[] reply_forward =
                             counterProxy_forward.invokeOrdered(out_forward.toByteArray());
                     System.out.println("FORWARD REPLY " + reply_forward);
                 } catch (IOException | NumberFormatException e) {

@@ -45,19 +45,24 @@ public class ClientConsumer implements Runnable {
         }
     }
 
-    public void process_from_replica_set() throws InterruptedException {
+    public void process_from_replica_set() throws InterruptedException, IOException {
         System.out.println("IN CLIENT CONSUMER REPLICA SET ");
         double newValue;
         long sleep_time = this.consume_from_interval*1000;
         ServiceProxy readCounterProxy = new ServiceProxy(this.client_id, this.consume_from);
-        ByteArrayOutputStream out = new ByteArrayOutputStream(4);
-        int inc = -1;
-        System.out.println("SENDING REQUEST");
-        try {
-            new DataOutputStream(out).writeDouble(inc); // sending 0 is a read request
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        ByteArrayOutputStream out = new ByteArrayOutputStream(4);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ReturnObject ro = new ReturnObject(-1, -1);
+        ObjectOutputStream objOutputStream = new ObjectOutputStream(out);
+        objOutputStream.writeObject(ro);
+        objOutputStream.flush(); // ensures all data is written to ByteArrayOutputStream
+//        int inc = -1;
+//        System.out.println("SENDING REQUEST");
+//        try {
+//            new DataOutputStream(out).writeDouble(inc); // sending 0 is a read request
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
         while (true) {
 
@@ -74,10 +79,11 @@ public class ClientConsumer implements Runnable {
 
             if (reply != null) {
                 try {
-                    newValue = new DataInputStream(new ByteArrayInputStream(reply)).readDouble();
-                    System.out.println("RECEIVED REPLY CLIENT CONSUMER " + newValue);
-                    consume_queue.offer(newValue); // offer returns true or false on success, add will throw an exception if it fails
-                } catch (IOException e) {
+//                    newValue = new DataInputStream(new ByteArrayInputStream(reply)).readDouble();
+                    ReturnObject received_data = (ReturnObject) new ObjectInputStream(new ByteArrayInputStream(reply)).readObject();
+                    System.out.println("RECEIVED (" + received_data.sequence_number +") REPLY CLIENT CONSUMER " + received_data.value);
+                    consume_queue.offer(received_data.value); // offer returns true or false on success, add will throw an exception if it fails
+                } catch (IOException | ClassNotFoundException e) {
                     System.out.println("NO VALUE RECEIVED");
                     throw new RuntimeException(e);
                 }
@@ -113,6 +119,8 @@ public class ClientConsumer implements Runnable {
             try {
                 process_from_replica_set();
             } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 //            ServiceProxy readCounterProxy = new ServiceProxy(this.client_id, this.consume_from);
