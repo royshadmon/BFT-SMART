@@ -30,7 +30,8 @@ import com.opencsv.exceptions.CsvValidationException;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
-
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Example client that updates a BFT replicated service (a counter).
@@ -38,14 +39,17 @@ import java.util.Arrays;
  * @author alysson
  */
 public class CounterClient implements Runnable {
-    public static Queue<Double> consume_queue;
+//    public static Queue<Double> consume_queue;
+    public static Map<String,Queue<Double>> consume_queue_map;
+    public static Map<String,Map<Integer, Double>> data_history;
     private final String config_file_path;
     private final String consume_from;
     private final boolean isSource_data;
+    private final String[] stream_ids;
     private int consume_from_column_id;
     private final Properties client_config;
 
-    private final int client_id;
+//    private final int client_id;
     
     protected String produce_to;
 
@@ -54,11 +58,20 @@ public class CounterClient implements Runnable {
     public CounterClient(String config_file_path) throws IOException, InterruptedException {
         System.out.println("IN COUNTER CLIENT CONSTRUCTOR");
         this.config_file_path = config_file_path;
-        this.consume_queue = new ConcurrentLinkedQueue<>(); // set up data processing queue
         this.client_config = new ProcessLayerConfig(config_file_path).getConfig(); // process config file
+//        this.consume_queue = new ConcurrentLinkedQueue<>(); // set up data processing queue
+        this.stream_ids = this.client_config.getProperty("consume_from.stream_ids").split("\\,");
+        this.consume_queue_map = new HashMap<>();
+        for (int i = 0; i < stream_ids.length; i++) {
+            this.consume_queue_map.put(this.stream_ids[i], new ConcurrentLinkedQueue<>());
+        }
+
+        this.data_history = new HashMap<>();
+
+
 
         // Get parameters in Config file
-        this.client_id = Integer.parseInt(client_config.getProperty("client_id"));
+//        this.client_id = Integer.parseInt(client_config.getProperty("client_id"));
         this.consume_from = client_config.getProperty("consume_from"); // where to consume_from
         this.isSource_data = Boolean.getBoolean(client_config.getProperty("consume_from.source_data")); // if true, signifies that the consume_from field is a CSV file
         if (this.isSource_data)
@@ -256,14 +269,20 @@ public class CounterClient implements Runnable {
         System.out.println("IN COUNTER CLIENT RUN2222");
         // Start background thread to produce data
 //        ClientProducer c = new ClientProducer(this.conf, this.produce_to, this.consume_queue);
-        ClientProducer c = new ClientProducer(this.client_config, this.consume_queue);
+        ClientProducer c = new ClientProducer(this.client_config, this.consume_queue_map);
         Thread t = new Thread(c);
         t.start(); // Starts the run() function
 
-//        ClientConsumer cc = new ClientConsumer(this.conf, this.config_input, this.consume_queue);
-        ClientConsumer cc = new ClientConsumer(this.client_config, this.consume_queue);
-        Thread t2 = new Thread(cc);
-        t2.start();
+        String stream_ids = this.client_config.getProperty("consume_from.stream_ids");
+        String[] stream_ids_part = stream_ids.split("\\,");
+
+        for (int i=0; i<stream_ids_part.length; i++) {
+            ClientConsumer cc = new ClientConsumer(this.client_config, this.consume_queue_map, i);
+            Thread t2 = new Thread(cc);
+            t2.start();
+        }
+
+
     }
 }
 

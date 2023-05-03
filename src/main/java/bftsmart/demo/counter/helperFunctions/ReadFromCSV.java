@@ -23,7 +23,7 @@ public class ReadFromCSV {
             src_data_queue = new ConcurrentLinkedQueue<>();
             while ((record = csvReader.readNext()) != null) {
                 try {
-                    src_data_queue.offer(Double.parseDouble(record[5]));
+                    src_data_queue.offer(Double.parseDouble(record[column_id]));
                 }catch (NumberFormatException e) {
                     System.out.println("Skipping column header");
                 }

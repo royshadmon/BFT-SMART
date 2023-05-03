@@ -7,4 +7,11 @@ public class testFunction {
         }
         return a[0]/2;
     }
+
+    public static double sum(double[] a) {
+        if (a.length != 2) {
+            System.out.println("INPUT PARAMETERS ARE WRONG FOR FUNCTION SUM");
+        }
+        return a[0] + a[1];
+    }
 }

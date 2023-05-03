@@ -3,45 +3,59 @@ package bftsmart.demo.counter;
 import bftsmart.demo.counter.helperFunctions.ReadFromCSV;
 import bftsmart.tom.ServiceProxy;
 
+import javax.xml.crypto.Data;
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ClientConsumer implements Runnable {
     private final int client_id;
     private final String consume_from;
-    private boolean isSource_data = false;
+    private final String stream_id;
+    private Map<String, Queue<Double>> consume_queue_map;
+    private final boolean isSource_data;
     private int consume_from_column_id;
     private final int consume_from_interval;
-    protected Queue<Double> consume_queue;
+//    protected Queue<Double> consume_queue;
 
+    private int last_seq_num_process;
     protected Queue<Double> src_data_queue;
 
 
 //    public ClientConsumer(Properties conf, String consumeFromConfig, Queue<Double> consume_q) {
-    public ClientConsumer(Properties client_config, Queue<Double> consume_q) {
-        this.client_id = Integer.parseInt(client_config.getProperty("client_id"));
-        this.consume_from = client_config.getProperty("consume_from"); // where to consume_from
+    public ClientConsumer(Properties client_config, Map<String,Queue<Double>> consume_q_map, int stream_index) {
+        this.last_seq_num_process = 1;
+        this.client_id = Integer.parseInt(client_config.getProperty("client_id").split("\\,")[stream_index]);
+        this.consume_from = client_config.getProperty("consume_from").split("\\,")[stream_index]; // where to consume_from
         System.out.println(client_config);
-        this.consume_from_interval = Integer.parseInt(client_config.getProperty("consume_from_interval"));
-        this.isSource_data = Boolean.parseBoolean(client_config.getProperty("consume_from.isSource_data")); // if true, signifies that the consume_from field is a CSV file
+        this.consume_from_interval = Integer.parseInt(client_config.getProperty("consume_from.interval").split("\\,")[stream_index]);
+        this.isSource_data = Boolean.parseBoolean(client_config.getProperty("consume_from.isSource_data").split("\\,")[stream_index]); // if true, signifies that the consume_from field is a CSV file
+        this.stream_id = client_config.getProperty("consume_from.stream_ids").split("\\,")[stream_index];
         System.out.println("CLIENT CONSUMER CONFIG FILE " + this.isSource_data);
         if (this.isSource_data)
-            this.consume_from_column_id = Integer.parseInt(client_config.getProperty("consume_from.column_id"));
+            this.consume_from_column_id = Integer.parseInt(client_config.getProperty("consume_from.column_id").split("\\,")[stream_index]);
 
-        this.consume_queue = consume_q;
+        this.consume_queue_map = consume_q_map;
+
 //        this.consumeFromConfig = consumeFromConfig;
     }
 
     public void process_source_data() throws InterruptedException{
         System.out.println("IN CLIENT CONSUMER SOURCE DATA ");
+        int seq_number = 1;
         double newValue;
         long sleep_time = this.consume_from_interval*1000;
         this.src_data_queue = ReadFromCSV.read_csv(this.consume_from, this.consume_from_column_id);
         while (true) {
             Thread.sleep(sleep_time);
             newValue = src_data_queue.poll(); // get data from source data
-            this.consume_queue.offer(newValue); // put data in consumer_queue
+//            this.consume_queue.offer(newValue); // put data in consumer_queue
+            this.consume_queue_map.computeIfAbsent(this.stream_id, k -> new ConcurrentLinkedQueue<>()).offer(newValue);
+
+            //            seq_number += 1;
         }
     }
 
@@ -50,14 +64,16 @@ public class ClientConsumer implements Runnable {
         double newValue;
         long sleep_time = this.consume_from_interval*1000;
         ServiceProxy readCounterProxy = new ServiceProxy(this.client_id, this.consume_from);
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        ReturnObject ro = new ReturnObject(-1, -1);
-        ObjectOutputStream objOutputStream = new ObjectOutputStream(out);
-        objOutputStream.writeObject(ro);
-        objOutputStream.flush(); // ensures all data is written to ByteArrayOutputStream
+        int seq_num = 1;
 
 
         while (true) {
+            // prepare client request message
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            ReturnObject ro = new ReturnObject(this.stream_id, seq_num, -1);
+            ObjectOutputStream objOutputStream = new ObjectOutputStream(out);
+            objOutputStream.writeObject(ro);
+            objOutputStream.flush(); // ensures all data is written to ByteArrayOutputStream
 
             System.out.println("IN CLIENT CONSUMER SERVICE");
             try {
@@ -75,7 +91,13 @@ public class ClientConsumer implements Runnable {
 //                    newValue = new DataInputStream(new ByteArrayInputStream(reply)).readDouble();
                     ReturnObject received_data = (ReturnObject) new ObjectInputStream(new ByteArrayInputStream(reply)).readObject();
                     System.out.println("RECEIVED (" + received_data.sequence_number +") REPLY CLIENT CONSUMER " + received_data.value);
-                    consume_queue.offer(received_data.value); // offer returns true or false on success, add will throw an exception if it fails
+                    // wait for correct sequence number
+                    if (this.last_seq_num_process+1 == received_data.sequence_number) {
+                        this.consume_queue_map.computeIfAbsent(this.stream_id, k -> new ConcurrentLinkedQueue<>()).offer(received_data.value);
+//                        consume_queue.offer(received_data.value); // offer returns true or false on success, add will throw an exception if it fails
+                        seq_num += 1;
+                    }
+
                 } catch (IOException | ClassNotFoundException e) {
                     System.out.println("NO VALUE RECEIVED");
                     throw new RuntimeException(e);
@@ -115,3 +137,4 @@ public class ClientConsumer implements Runnable {
 
     }
 }
+

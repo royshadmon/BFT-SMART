@@ -19,6 +19,7 @@ import bftsmart.demo.counter.helperFunctions.ProcessLayerConfig;
 import bftsmart.tom.MessageContext;
 import bftsmart.tom.ServiceReplica;
 import bftsmart.tom.server.defaultservices.DefaultSingleRecoverable;
+import org.bouncycastle.cert.ocsp.Req;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +34,8 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -53,6 +56,8 @@ public final class CounterServer extends DefaultSingleRecoverable  {
     private final int num_func_args;
     private double counter = 0;
     private int iterations = 0;
+
+    public static Map<String, Map<Integer, Double>> data_history;
     
 //    public CounterServer(int id, String replicaConfigFile, String clientConfigFile) {
     public CounterServer(int server_id, ProcessLayerConfig clientConfig) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -73,6 +78,7 @@ public final class CounterServer extends DefaultSingleRecoverable  {
         this.replica_computation = clientConfig.get_function_interface();
         this.obj = clientConfig.get_function_obj();
         this.num_func_args = clientConfig.get_num_func_args();
+        this.data_history = new HashMap<>();
     }
             
     @Override
@@ -80,8 +86,10 @@ public final class CounterServer extends DefaultSingleRecoverable  {
 //        iterations++;
         System.out.println("INVOKE UNORDERED -- (" + iterations + ") Counter current value: " + counter);
         try {
+            ReturnObject received_data = (ReturnObject) new ObjectInputStream(new ByteArrayInputStream(command)).readObject();
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            ReturnObject ro = new ReturnObject(iterations, counter);
+
+            ReturnObject ro = new ReturnObject(received_data.stream_id, received_data.sequence_number, data_history.get(received_data.stream_id).get(received_data.sequence_number)); // TODO
             ObjectOutputStream objOutputStream = new ObjectOutputStream(out);
             objOutputStream.writeObject(ro);
             objOutputStream.flush(); // ensures all data is written to ByteArrayOutputStream
@@ -90,28 +98,32 @@ public final class CounterServer extends DefaultSingleRecoverable  {
         } catch (IOException ex) {
             System.err.println("Invalid request received!");
             return new byte[0];
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
   
     @Override
     public byte[] appExecuteOrdered(byte[] command, MessageContext msgCtx) {
-        iterations++;
         try {
-            ReturnObject received_data = (ReturnObject) new ObjectInputStream(new ByteArrayInputStream(command)).readObject();
+            iterations++;
+            RequestObject received_data = (RequestObject) new ObjectInputStream(new ByteArrayInputStream(command)).readObject();
             logger.debug("RECEIVED ORDERED MESSAGE " +received_data );
-            System.out.println("RECEIVED ORDERED MESSAGE " + received_data);
+            System.out.println("RECEIVED ORDERED MESSAGE " + received_data.values);
+            for (int i=0; i<received_data.values.length; i++)
+                System.out.println("RECIEVED OREDED " + received_data.values[i]);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             ObjectOutputStream objOutputStream = new ObjectOutputStream(out);
-            double[] func_inputs = new double[this.num_func_args];
-            func_inputs[0] = received_data.value;
-            counter = (double) this.replica_computation.invoke(this.obj, func_inputs);
-
+//            double[] func_inputs = new double[this.num_func_args];
+//            func_inputs[0] = received_data.value;
+            counter = (double) this.replica_computation.invoke(this.obj, received_data.values);
+            this.data_history.computeIfAbsent(received_data.stream_id, k -> new HashMap<>()).put(iterations, counter);
             System.out.println("SENDING  " + counter);
             
             System.out.println("(" + iterations + ") Counter was processed. Current value = " + counter);
 
 
-            ReturnObject ro = new ReturnObject(iterations, counter);
+            ReturnObject ro = new ReturnObject(received_data.stream_id, iterations, counter);
             objOutputStream.writeObject(ro);
             objOutputStream.flush(); // ensures all data is written to ByteArrayOutputStream
             return out.toByteArray();
