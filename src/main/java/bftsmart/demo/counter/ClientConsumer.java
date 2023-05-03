@@ -27,7 +27,7 @@ public class ClientConsumer implements Runnable {
 
 //    public ClientConsumer(Properties conf, String consumeFromConfig, Queue<Double> consume_q) {
     public ClientConsumer(Properties client_config, Map<String,Queue<Double>> consume_q_map, int stream_index) {
-        this.last_seq_num_process = 1;
+        this.last_seq_num_process = 0;
         this.client_id = Integer.parseInt(client_config.getProperty("client_id").split("\\,")[stream_index]);
         this.consume_from = client_config.getProperty("consume_from").split("\\,")[stream_index]; // where to consume_from
         System.out.println(client_config);
@@ -70,17 +70,15 @@ public class ClientConsumer implements Runnable {
         while (true) {
             // prepare client request message
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            ReturnObject ro = new ReturnObject(this.stream_id, seq_num, -1);
+            ReturnObject ro = new ReturnObject(this.stream_id, seq_num, null);
             ObjectOutputStream objOutputStream = new ObjectOutputStream(out);
             objOutputStream.writeObject(ro);
             objOutputStream.flush(); // ensures all data is written to ByteArrayOutputStream
 
-            System.out.println("IN CLIENT CONSUMER SERVICE");
-            try {
-                Thread.sleep(sleep_time);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            System.out.println("IN CLIENT CONSUMER SERVICE REQUESTING SEQ " + seq_num);
+
+            Thread.sleep(sleep_time);
+
 
             // get most recent committed value
             byte[] reply = readCounterProxy.invokeUnordered(out.toByteArray());
@@ -92,7 +90,7 @@ public class ClientConsumer implements Runnable {
                     ReturnObject received_data = (ReturnObject) new ObjectInputStream(new ByteArrayInputStream(reply)).readObject();
                     System.out.println("RECEIVED (" + received_data.sequence_number +") REPLY CLIENT CONSUMER " + received_data.value);
                     // wait for correct sequence number
-                    if (this.last_seq_num_process+1 == received_data.sequence_number) {
+                    if (seq_num == received_data.sequence_number && received_data.value != null) {
                         this.consume_queue_map.computeIfAbsent(this.stream_id, k -> new ConcurrentLinkedQueue<>()).offer(received_data.value);
 //                        consume_queue.offer(received_data.value); // offer returns true or false on success, add will throw an exception if it fails
                         seq_num += 1;
@@ -104,7 +102,6 @@ public class ClientConsumer implements Runnable {
                 }
                 //System.out.println(", returned value: " + newValue);
                 // Check if returned value is a new value and add new value to queue
-
 
             }
         }
