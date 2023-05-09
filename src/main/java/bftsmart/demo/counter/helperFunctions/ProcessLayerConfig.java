@@ -49,6 +49,7 @@ public class ProcessLayerConfig {
         // Split function arguments into a String array
         String[] func_args = argsString.split(",");
         // Define the types of each argument
+        String[] consume_stream_ids = this.config.getProperty("consume_from.stream_ids").split("\\,");
         Class<?>[] argTypes = new Class<?>[func_args.length];
         Object[] argValues = new Object[func_args.length];
         for (int i = 0; i < func_args.length; i++) {
@@ -60,7 +61,7 @@ public class ProcessLayerConfig {
                 argValues[i] = null;
             }
         }
-        this.num_function_params = func_args.length;
+        this.num_function_params = consume_stream_ids.length;
         // Declare method with the arguments and types
         Method method = cls.getDeclaredMethod(methodName, argTypes);
         // Create an instance of the method
@@ -80,6 +81,8 @@ public class ProcessLayerConfig {
                 return double.class;
             case "double[]":
                 return double[].class;
+            case "Double[]":
+                return Double[].class;
             default:
                 return Class.forName(className);
         }

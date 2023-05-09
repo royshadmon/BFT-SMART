@@ -8,6 +8,7 @@ do
 	count=$((count+1))
 	echo $id
 
+
 done
 count=0
 max_replicas=$((num_replicas + count))

@@ -55,7 +55,7 @@ public final class CounterServer extends DefaultSingleRecoverable  {
     private final Object obj;
     private final int num_func_args;
     private double counter = 0;
-    private int iterations = 0;
+    private int iterations = 1;
 
     public static Map<String, Map<Integer, Double>> data_history;
     
@@ -84,15 +84,16 @@ public final class CounterServer extends DefaultSingleRecoverable  {
     @Override
     public byte[] appExecuteUnordered(byte[] command, MessageContext msgCtx) {
 //        iterations++;
-        System.out.println("INVOKE UNORDERED -- (" + iterations + ") Counter current value: " + counter);
+//        System.out.println("INVOKE UNORDERED -- (" + iterations + ") Counter current value: " + counter);
         try {
-            ReturnObject received_data = (ReturnObject) new ObjectInputStream(new ByteArrayInputStream(command)).readObject();
+            RequestObject received_data = (RequestObject) new ObjectInputStream(new ByteArrayInputStream(command)).readObject();
             ByteArrayOutputStream out = new ByteArrayOutputStream();
+            System.out.println("INVOKE UNORDERED -- REQUEST FOR SEQ (" + received_data.seq_num );
             // Get the requested value and return null if it does not exist
-            Double requested_value = data_history.containsKey(received_data.stream_id) ? data_history.get(received_data.stream_id).getOrDefault(received_data.sequence_number, null) : null;
-            System.out.println("IN UNORDERED STREAM ID KEYS " + data_history.get(received_data.stream_id).containsKey(received_data.sequence_number));
+            Double requested_value = data_history.containsKey(received_data.stream_id) ? data_history.get(received_data.stream_id).getOrDefault(received_data.seq_num, null) : null;
+            System.out.println("IN UNORDERED STREAM ID KEYS " + data_history.get(received_data.stream_id).containsKey(received_data.seq_num));
 //            System.out.println("IN INVOKE " + received_data.sequence_number + " UNORDERED RETURNING VALUE " + requested_value);
-            ReturnObject ro = new ReturnObject(received_data.stream_id, received_data.sequence_number, requested_value); // TODO
+            ReturnObject ro = new ReturnObject(received_data.stream_id, received_data.seq_num, requested_value); // TODO
             ObjectOutputStream objOutputStream = new ObjectOutputStream(out);
             objOutputStream.writeObject(ro);
             objOutputStream.flush(); // ensures all data is written to ByteArrayOutputStream
@@ -102,6 +103,7 @@ public final class CounterServer extends DefaultSingleRecoverable  {
             System.err.println("Invalid request received!");
             return new byte[0];
         } catch (ClassNotFoundException e) {
+            System.out.println("CLASS NOT FOUND EXCEPTION");
             throw new RuntimeException(e);
         }
     }
@@ -109,17 +111,22 @@ public final class CounterServer extends DefaultSingleRecoverable  {
     @Override
     public byte[] appExecuteOrdered(byte[] command, MessageContext msgCtx) {
         try {
-            iterations++;
             RequestObject received_data = (RequestObject) new ObjectInputStream(new ByteArrayInputStream(command)).readObject();
             logger.debug("RECEIVED ORDERED MESSAGE " +received_data );
             System.out.println("RECEIVED ORDERED MESSAGE " + received_data.values);
-            for (int i=0; i<received_data.values.length; i++)
+            System.out.println("NUM FUNC ARGS " + this.num_func_args);
+            double[] func_inputs = new double[this.num_func_args];
+            for (int i=0; i<received_data.values.length; i++) {
+                func_inputs[i] = received_data.values[i];
                 System.out.println("RECIEVED OREDED " + received_data.values[i]);
+            }
+
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             ObjectOutputStream objOutputStream = new ObjectOutputStream(out);
-//            double[] func_inputs = new double[this.num_func_args];
+//
 //            func_inputs[0] = received_data.value;
-            counter = (double) this.replica_computation.invoke(this.obj, received_data.values);
+
+            counter = (double) this.replica_computation.invoke(this.obj, func_inputs);
             System.out.println("IN APP EXECUTE ORDERED STORING ITERATION " + iterations + "DATA " + counter);
             this.data_history.computeIfAbsent(received_data.stream_id, k -> new HashMap<>()).put(iterations, counter);
             System.out.println("SENDING  " + counter);
@@ -130,6 +137,7 @@ public final class CounterServer extends DefaultSingleRecoverable  {
             ReturnObject ro = new ReturnObject(received_data.stream_id, iterations, counter);
             objOutputStream.writeObject(ro);
             objOutputStream.flush(); // ensures all data is written to ByteArrayOutputStream
+            iterations++;
             return out.toByteArray();
 
         } catch (IOException ex) {

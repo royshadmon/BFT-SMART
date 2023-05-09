@@ -3,27 +3,30 @@ package bftsmart.demo.counter;
 import bftsmart.demo.counter.helperFunctions.ProcessLayerConfig;
 import bftsmart.tom.ServiceProxy;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Queue;
+import java.time.LocalDateTime;
+import java.time.Duration;
+
 
 public class ClientProducer implements Runnable {
     private final String produce_to;
     private final Map<String, Queue<Double>> consume_queue_map;
     private final String[] stream_ids;
-    private final int produce_rate;
+    private final float produce_rate;
     private final String produce_stream_id;
+
+    private final Properties client_config;
 
     //    protected Queue<Double> consume_queue;
     public ClientProducer(Properties client_config, Map<String, Queue<Double>> consume_queue_map) {
+        this.client_config = client_config;
         this.produce_to = client_config.getProperty("produce_to");
         this.consume_queue_map = consume_queue_map;
         this.stream_ids = client_config.getProperty("consume_from.stream_ids").split("\\,");
-        this.produce_rate = Integer.parseInt(client_config.getProperty("produce.rate"));
+        this.produce_rate = Float.parseFloat(client_config.getProperty("produce.rate"));
         this.produce_stream_id = client_config.getProperty("produce.stream_id");
     }
 
@@ -42,15 +45,18 @@ public class ClientProducer implements Runnable {
     public void process_response() throws InterruptedException, IOException {
         double val;
         int iter= 1;
-        int sleep_time = this.produce_rate * 1000;
+        float sleep_time = this.produce_rate * 1000;
         ServiceProxy counterProxy_forward = new ServiceProxy(10, this.produce_to);
         System.out.println("OUTPUTTING TO " + this.produce_to);
-
+        String r_id = this.client_config.getProperty("replica_set_id");
+        BufferedWriter bw = new BufferedWriter(new FileWriter("/Users/royshadmon/Desktop/"+r_id+"-PRODUCE.txt", true));
+        LocalDateTime start, end;
+        boolean ready_to_process;
         while (true) {
-            boolean ready_to_process = true;
+            ready_to_process = true;
             System.out.println("IN CLIENT PRODUCER SERVICE");
-            Thread.sleep(sleep_time);
-
+            Thread.sleep((long) sleep_time);
+            start = LocalDateTime.now();
             for (int i=0; i< stream_ids.length; i++) {
                 System.out.println("QUEUE IN CLIENT PRODUCER " + this.stream_ids[i]);
                 //                System.out.println("QUEUE IN CLIENT PRODUCER " + this.stream_ids[i] + " SIZE " + this.consume_queue_map.get(stream_ids[i]).size());
@@ -71,7 +77,7 @@ public class ClientProducer implements Runnable {
 //                    val += iter;
 
                 }
-                RequestObject ro = new RequestObject(this.produce_stream_id, func_params);
+                RequestObject ro = new RequestObject(this.produce_stream_id, null, func_params);
                 ByteArrayOutputStream out_forward = new ByteArrayOutputStream();
                 ObjectOutputStream objOutputStream = new ObjectOutputStream(out_forward);
                 objOutputStream.writeObject(ro);
@@ -79,6 +85,11 @@ public class ClientProducer implements Runnable {
                 byte[] reply_forward =
                         counterProxy_forward.invokeOrdered(out_forward.toByteArray());
                 System.out.println("FORWARD REPLY " + reply_forward);
+                end = LocalDateTime.now();
+                long totalTime = Duration.between(start, end).toMillis();
+                bw.write(totalTime + "\n");
+                bw.flush();
+                System.out.println("SECONDS DELAYED TO PRODUCE OUTPUT IS " + totalTime);
             }
 
         }
