@@ -20,6 +20,16 @@ do
 
 done
 
+count=0
+max_replicas=$((num_replicas + count))
+for (( id=$((count)); id<$((max_replicas)); id++ ))
+do
+	echo "Starting layer 1 replica $id"
+  	ttab -t 'R0' runscripts/smartrun.sh bftsmart.demo.counter.CounterServer $((id)) /Users/royshadmon/BFT-SMART/src/main/java/bftsmart/demo/counter/layerConfigs/layer3.properties
+	echo $id
+
+done
+
 #ttab -t 'R0' runscripts/smartrun.sh bftsmart.demo.counter.CounterServer 0
 #ttab -t 'R1' runscripts/smartrun.sh bftsmart.demo.counter.CounterServer 1
 #ttab -t 'R2' runscripts/smartrun.sh bftsmart.demo.counter.CounterServer 2

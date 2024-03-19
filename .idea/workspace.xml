@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0538279-4b1a-4a8f-81e7-c2a5815cf12b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/config/hosts-l3.config" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/layerConfigs/layer3.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/BFT-SMaRt.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/BFT-SMaRt.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/ClientConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/ClientConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/ClientProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/ClientProducer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/CounterServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/RequestObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/RequestObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/helperFunctions/ProcessLayerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/helperFunctions/ProcessLayerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/hosts-l2.config" beforeDir="false" afterPath="$PROJECT_DIR$/config/hosts-l2.config" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/layerConfigs/layer1.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/layerConfigs/layer1.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/layerConfigs/layer2.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bftsmart/demo/counter/layerConfigs/layer2.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/startCounterServer.sh" beforeDir="false" afterPath="$PROJECT_DIR$/startCounterServer.sh" afterDir="false" />
@@ -191,7 +188,9 @@
       <workItem from="1682953361727" duration="24139000" />
       <workItem from="1683048202011" duration="4339000" />
       <workItem from="1683124965180" duration="4582000" />
-      <workItem from="1683556201554" duration="14757000" />
+      <workItem from="1683556201554" duration="14836000" />
+      <workItem from="1683674633355" duration="1174000" />
+      <workItem from="1710860224871" duration="399000" />
     </task>
     <servers />
   </component>
