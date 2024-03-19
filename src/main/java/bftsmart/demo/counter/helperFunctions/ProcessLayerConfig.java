@@ -89,7 +89,7 @@ public class ProcessLayerConfig {
     }
 
     public static void main(String[] args) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        ProcessLayerConfig p = new ProcessLayerConfig("/Users/royshadmon/BFT-SMART/src/main/java/bftsmart/demo/counter/layerConfigs/layer1.properties");
+        ProcessLayerConfig p = new ProcessLayerConfig("/Users/roy/Github-Repos/BFT-SMART/src/main/java/bftsmart/demo/counter/layerConfigs/layer1.properties");
         System.out.println("hi");
         Method m = p.get_function_interface();
         Object obj = p.get_function_obj();

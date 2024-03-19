@@ -72,7 +72,7 @@ public class ClientConsumer implements Runnable {
         int seq_num = 1;
 
         String r_id = this.client_config.getProperty("replica_set_id");
-        BufferedWriter bw = new BufferedWriter(new FileWriter("/Users/royshadmon/Desktop/"+r_id+"-CONSUME.txt", true));
+        BufferedWriter bw = new BufferedWriter(new FileWriter("/Users/roy/Desktop/"+r_id+"-CONSUME.txt", true));
         LocalDateTime start, end;
         boolean response_received = true;
         start = LocalDateTime.now();

@@ -49,7 +49,7 @@ public class ClientProducer implements Runnable {
         ServiceProxy counterProxy_forward = new ServiceProxy(10, this.produce_to);
         System.out.println("OUTPUTTING TO " + this.produce_to);
         String r_id = this.client_config.getProperty("replica_set_id");
-        BufferedWriter bw = new BufferedWriter(new FileWriter("/Users/royshadmon/Desktop/"+r_id+"-PRODUCE.txt", true));
+        BufferedWriter bw = new BufferedWriter(new FileWriter("/Users/roy/Desktop/"+r_id+"-PRODUCE.txt", true));
         LocalDateTime start, end;
         boolean ready_to_process;
         while (true) {
